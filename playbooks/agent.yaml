@@ -29,6 +29,7 @@
 
 
   vars: # ToDo: remove the below t4est vars
+    api_address: addresses
     api_subnets: subnets
     api_scanagents: tools/scanagents
     nfc_c_path_cache: "{{ playbook_dir }}/../cache"
