@@ -19,6 +19,15 @@
       ansible.builtin.include_tasks:
         file: tasks/subnets.yaml
 
+
+    - name: Scan Subnet
+      ansible.builtin.include_tasks:
+        file: tasks/scan_subnet.yaml
+      loop: "{{ nfc_c_scan_agent_subnets }}"
+      loop_control:
+        loop_var: subnet
+
+
   vars: # ToDo: remove the below t4est vars
     api_subnets: subnets
     api_scanagents: tools/scanagents

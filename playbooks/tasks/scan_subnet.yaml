@@ -1,0 +1,7 @@
+---
+
+- name: Scan subnet
+  ansible.builtin.command:
+    cmd: nmap -sn "{{ subnet.address }}" -oX -
+  become: true
+  register: nmap_scan
