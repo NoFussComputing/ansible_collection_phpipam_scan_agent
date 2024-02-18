@@ -15,7 +15,12 @@
         file: tasks/agent_id.yaml
 
 
+    - name: Subnets
+      ansible.builtin.include_tasks:
+        file: tasks/subnets.yaml
+
   vars: # ToDo: remove the below t4est vars
+    api_subnets: subnets
     api_scanagents: tools/scanagents
     nfc_c_path_cache: "{{ playbook_dir }}/../cache"
     nfc_c_cache_expire_time: 1800

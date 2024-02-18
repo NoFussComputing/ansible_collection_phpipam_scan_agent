@@ -1,0 +1,28 @@
+---
+
+- name: Reset Subnet List
+  ansible.builtin.set_fact:
+    nfc_c_scan_agent_subnets: []
+
+
+- name: Get subnets to Scan
+  ansible.builtin.include_tasks:
+    file: tasks/api_call.yaml
+  vars:
+    api_client_name: "{{ client_name }}"
+    api_token: "{{ client_token }}"
+    api_path: "{{ api_subnets }}"
+    api_query_string: "filter_by=scanAgent&filter_value={{ nfc_c_scan_agent_id }}"
+
+
+- name: Update Subnets List
+  ansible.builtin.set_fact:
+    nfc_c_scan_agent_subnets: "{{ nfc_c_scan_agent_subnets + [{
+        'id': network.id,
+        'address': network.subnet + '/' + network.mask
+      }] }}"
+  loop: "{{ data | default ([]) }}"
+  loop_control:
+    loop_var: network
+  vars:
+    data: "{{ lookup('file', cache_filepath) }}"
