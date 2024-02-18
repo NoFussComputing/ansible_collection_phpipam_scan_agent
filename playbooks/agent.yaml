@@ -9,3 +9,11 @@
       ansible.builtin.file:
         path: "{{ nfc_c_path_cache }}"
         state: directory
+
+    - name: Agent ID
+      ansible.builtin.include_tasks:
+        file: tasks/agent_id.yaml
+
+
+  vars: # ToDo: remove the below t4est vars
+    api_scanagents: tools/scanagents
