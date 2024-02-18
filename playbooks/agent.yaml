@@ -1,0 +1,11 @@
+- name: Fetch API Data
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+
+    - name: Create API Cache Directory
+      ansible.builtin.file:
+        path: "{{ nfc_c_path_cache }}"
+        state: directory
