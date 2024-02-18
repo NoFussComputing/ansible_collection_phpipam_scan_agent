@@ -1,0 +1,32 @@
+---
+- name: Try/Catch
+  block:
+
+
+    - name: Mandatory Variables set
+      ansible.builtin.assert:
+        that:
+          - api_client_name is defined
+          - api_path is defined
+          - api_token is defined
+
+
+    - name: >
+        PHPIPAM API Call - {{ api_path }}{%- if api_query_string is defined -%}
+            /?{{ api_query_string }}
+          {%- endif %}
+      ansible.builtin.uri:
+        url: >-
+          https://phpipam.local/api/{{ api_client_name }}/{{ api_path }}
+          {%- if api_query_string is defined -%}
+            /?{{ api_query_string }}
+          {%- endif %}
+        headers:
+          token: "{{ api_token }}"
+        return_content: true
+        status_code:
+          - 200
+        validate_certs: false
+      changed_when: "{{ api_call.json | length | int > 0 }}"
+      no_log: true
+      register: api_call
