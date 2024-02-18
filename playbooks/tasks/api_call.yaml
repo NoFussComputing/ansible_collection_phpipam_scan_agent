@@ -11,6 +11,49 @@
           - api_token is defined
 
 
+    - name: API Facts
+      ansible.builtin.set_fact:
+        epoch: "{{ ((('%Y-%m-%d %H:%M:%S' | strftime) | string | to_datetime) - ('1970-01-01 00:00:00' | to_datetime)).total_seconds() | int }}"
+        expired: false
+        cache_filepath: >-
+          {{ nfc_c_path_cache }}/{{ api_path }}
+          {%- if api_query_string is defined -%}
+            _{{ ((api_query_string | split('&'))[0] | split('='))[1] | lower }}_{{ ((api_query_string | split('&'))[1] | split('='))[1] | lower }}
+          {%- endif -%}.json
+
+
+    - name: check Cache Files
+      ansible.builtin.stat:
+        path: "{{ cache_filepath }}"
+      register: cache_files
+
+
+    - name: Expire
+      ansible.builtin.set_fact:
+        expired: "{{ ((epoch | int + nfc_c_epoch_time_offset | int) >= ((cache_files.stat.mtime | int) + nfc_c_cache_expire_time | int) | int ) | bool }}"
+      when: cache_files.stat.exists
+
+
+    - name: TRACE - Cached file
+      ansible.builtin.debug:
+        msg:
+          - "exists: {{ cache_files.stat.exists | default('') }}"
+          - "mtime:  {{ cache_files.stat.mtime | default(0) | int }}"
+          - "expire: {{ (cache_files.stat.mtime | int) + nfc_c_cache_expire_time | int }}" 
+          - "epoch:  {{ (epoch | int + nfc_c_epoch_time_offset | int) | int }} [{{ nfc_c_cache_expire_time }}]"
+          - "epoch: {{ epoch }}"
+          - "expired: {{ expired }}"
+
+    - name: Expire Cache
+      ansible.builtin.file:
+        path: "{{ cache_files.stat.path }}"
+        state: absent
+      when: >
+        expired
+          and
+        cache_files.stat.exists
+
+
     - name: >
         PHPIPAM API Call - {{ api_path }}{%- if api_query_string is defined -%}
             /?{{ api_query_string }}
@@ -30,3 +73,33 @@
       changed_when: "{{ api_call.json | length | int > 0 }}"
       no_log: true
       register: api_call
+      when: >
+        (
+          expired
+            and
+          cache_files.stat.exists
+        )
+          or
+        not cache_files.stat.exists
+
+
+    - name: Create Cache DIR
+      ansible.builtin.file:
+        path: "{{ nfc_c_path_cache }}/{{ (api_path | split('/'))[0] }}"
+        state: directory
+      when: >
+        '/' in api_path
+
+
+    - name: Cache Data
+      ansible.builtin.copy:
+        content: "{{ api_call.json.data | to_nice_json }}"
+        dest: "{{ cache_filepath }}"
+      when: >
+        (
+          expired
+            and
+          cache_files.stat.exists
+        )
+          or
+        not cache_files.stat.exists
