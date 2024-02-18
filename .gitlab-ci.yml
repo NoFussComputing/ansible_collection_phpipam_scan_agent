@@ -1,0 +1,12 @@
+
+variables:
+  GIT_SUBMODULE_PATHS: gitlab-ci
+  ANSIBLE_GALAXY_PACKAGE_NAME: phpipam_scanagent
+  ##JOB_ROOT_DIR: gitlab-ci
+
+include:
+  - project: nofusscomputing/projects/gitlab-ci
+    ref: ansible-collections
+    file:
+      - .gitlab-ci_common.yaml
+      - template/ansible-collection.gitlab-ci.yaml
