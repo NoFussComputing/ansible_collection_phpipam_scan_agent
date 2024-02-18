@@ -13,7 +13,7 @@
 
 
 
-![GitHub forks](https://img.shields.io/github/forks/NofussComputing/ansible_collection_scan_agent?logo=github&style=plastic&color=000000&labell=Forks) ![GitHub stars](https://img.shields.io/github/stars/NofussComputing/ansible_collection_scan_agent?color=000000&logo=github&style=plastic) ![Github Watchers](https://img.shields.io/github/watchers/NofussComputing/ansible_collection_scan_agent?color=000000&label=Watchers&logo=github&style=plastic)
+![GitHub forks](https://img.shields.io/github/forks/NofussComputing/ansible_collection_phpipam_scan_agent?logo=github&style=plastic&color=000000&labell=Forks) ![GitHub stars](https://img.shields.io/github/stars/NofussComputing/ansible_collection_phpipam_scan_agent?color=000000&logo=github&style=plastic) ![Github Watchers](https://img.shields.io/github/watchers/NofussComputing/ansible_collection_phpipam_scan_agent?color=000000&label=Watchers&logo=github&style=plastic)
 <br>
 
 This project is hosted on [gitlab](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent) and has a read-only copy hosted on [Github](https://github.com/NofussComputing/ansible_collection_phpipam_scan_agent).
