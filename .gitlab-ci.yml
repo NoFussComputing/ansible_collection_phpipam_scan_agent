@@ -6,7 +6,7 @@ variables:
 
 include:
   - project: nofusscomputing/projects/gitlab-ci
-    ref: ansible-collections
+    ref: development
     file:
       - .gitlab-ci_common.yaml
       - template/ansible-collection.gitlab-ci.yaml
