@@ -5,3 +5,11 @@
     cmd: nmap -sn "{{ subnet.address }}" -oX -
   become: true
   register: nmap_scan
+- name: Get subnets Address'
+  ansible.builtin.include_tasks:
+    file: tasks/api_call.yaml
+  vars:
+    api_client_name: "{{ client_name }}"
+    api_token: "{{ client_token }}"
+    api_path: "{{ api_address }}"
+    api_query_string: "filter_by=subnetId&filter_value={{ subnet.id }}"
