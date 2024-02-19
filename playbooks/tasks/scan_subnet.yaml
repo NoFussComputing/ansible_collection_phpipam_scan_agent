@@ -45,3 +45,17 @@
 - name: To JSON
   ansible.builtin.set_fact:
     subnet_scan_results: "{{ subnet_scan_results | from_yaml }}"
+
+
+- name: Upload Scan Results
+  ansible.builtin.uri:
+    url: "{{ nfc_c_http_server }}:{{ nfc_c_http_port }}/"
+    method: POST
+    body_format: json
+    body: {
+      "code": "{{ scanagent_code }}",
+      "scan": {
+        "subnet": "{{ subnet.address }}",
+        "results": "{{ subnet_scan_results }}"
+      }
+    }
