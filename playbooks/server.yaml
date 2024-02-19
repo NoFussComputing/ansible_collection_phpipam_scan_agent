@@ -1,0 +1,63 @@
+---
+- name: Agent Server
+  hosts: all
+  gather_facts: false
+
+
+  tasks:
+
+
+    - name: TRACE Inbound data Received
+      ansible.builtin.debug:
+        msg: "{{ inbound_data }}"
+
+
+    - name: Fetch Agent Details
+      community.mysql.mysql_query:
+        login_host: "{{ nfc_c_mysql_host }}"
+        login_port: "{{ nfc_c_mysql_port | default(3306) | int }}"
+        login_user: "{{ nfc_c_mysql_user }}"
+        login_password: "{{ nfc_c_mysql_password }}"
+
+        login_db: 'phpipam'
+        query: >
+          SELECT id, code FROM scanAgents WHERE code='{{ inbound_data.code }}'
+        single_transaction: true
+      register: mysql_query_agent_details
+
+
+    - name: Confirm Subnet Assignment
+      community.mysql.mysql_query:
+        login_host: "{{ nfc_c_mysql_host }}"
+        login_port: "{{ nfc_c_mysql_port | default(3306) | int }}"
+        login_user: "{{ nfc_c_mysql_user }}"
+        login_password: "{{ nfc_c_mysql_password }}"
+
+        login_db: 'phpipam'
+        query: >
+          SELECT id, subnet FROM subnets WHERE
+            scanAgent='{{ mysql_query_agent_details.query_result[0][0].id }}'
+              and
+            subnet='{{ inbound_data.scan[0].subnet | ip2ipam }}'
+        single_transaction: true
+      register: mysql_query_agent_subnets
+
+
+    - name: Arrange Subnets
+      ansible.builtin.set_fact:
+        agent_subnets: "{{ agent_subnets | default([]) + [ item.id ] }}"
+
+      loop: "{{ mysql_query_agent_subnets.query_result[0] }}"
+
+
+    - name: Process Scan results
+      ansible.builtin.include_tasks:
+        file: tasks/server/subnet_scan.yaml
+      loop: "{{ inbound_data.scan }}"
+      loop_control:
+        loop_var: scan_result
+        label: "{{ scan_result }}"
+
+
+  vars:
+    ansible_connection: local

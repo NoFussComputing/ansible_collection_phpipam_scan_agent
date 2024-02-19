@@ -1,0 +1,33 @@
+---
+
+
+- name: Match Scan Addresses to DB Details
+  community.mysql.mysql_query:
+    login_host: "{{ nfc_c_mysql_host }}"
+    login_port: "{{ nfc_c_mysql_port | default(3306) | int }}"
+    login_user: "{{ nfc_c_mysql_user }}"
+    login_password: "{{ nfc_c_mysql_password }}"
+
+    login_db: 'phpipam'
+    query: |-
+      SELECT
+        id, description, state, note, lastSeen
+      FROM ipaddresses
+      WHERE
+        id='{{ ipaddress.id }}'
+          AND
+        ip_addr='{{ ipaddress.ip | ip2ipam }}'
+    single_transaction: true
+  register: mysql_query_find_ipaddress
+  loop: "{{ scan_result.results }}"
+  loop_control:
+    loop_var: ipaddress
+
+
+- name: Update IP Addresses
+  ansible.builtin.include_tasks:
+    file: tasks/server/ipaddress.yaml
+  loop: "{{ mysql_query_find_ipaddress.results }}"
+  loop_control:
+    loop_var: scan_address
+    label: "{{ scan_address }}"
