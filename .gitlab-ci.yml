@@ -1,8 +1,9 @@
 
 variables:
-  GIT_SUBMODULE_PATHS: gitlab-ci
   ANSIBLE_GALAXY_PACKAGE_NAME: phpipam_scanagent
-  ##JOB_ROOT_DIR: gitlab-ci
+  GIT_SYNC_URL: "https://$GITHUB_USERNAME_ROBOT:$GITHUB_TOKEN_ROBOT@github.com/NoFussComputing/docker-bind.git"
+  GIT_SUBMODULE_PATHS: gitlab-ci
+
 
 include:
   - project: nofusscomputing/projects/gitlab-ci
@@ -10,3 +11,5 @@ include:
     file:
       - .gitlab-ci_common.yaml
       - template/ansible-collection.gitlab-ci.yaml
+      # ToDo: update gitlabCI jobs for collections workflow
+      - git_push_mirror/.gitlab-ci.yml
