@@ -9,10 +9,14 @@ about: https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_s
 <div align="center">
 
 ![Project Status - Active](https://img.shields.io/badge/Project%20Status-Active-green?logo=gitlab&style=plastic)
+
 <br>
+
 [![Latest Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphp_scan_agent%2F&query=%24.highest_version.version&style=plastic&logo=ansible&logoColor=white&label=Latest%20Release&labelColor=black&color=cyan)](https://galaxy.ansible.com/ui/repo/published/nofusscomputing/ci_test_collection/)
 ![Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphp_scan_agent%2F&query=%24.download_count&style=plastic&logo=ansible&logoColor=white&label=Downloads&labelColor=black&color=cyan)
+
 <br>
+
 [![Docker Image Version](https://img.shields.io/docker/v/nofusscomputing/phpipam-scan-agent?sort=semver&style=plastic&logo=docker&logoColor=0db7ed&color=0db7ed&label=Latest%20Release)](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent)
 [![Docker Pulls](https://img.shields.io/docker/pulls/nofusscomputing/phpipam-scan-agent?style=plastic&logo=docker&logoColor=0db7ed&color=0db7ed)](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent)
 
