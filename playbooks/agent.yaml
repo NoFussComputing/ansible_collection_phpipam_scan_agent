@@ -23,11 +23,18 @@
         api_url is not defined
 
 
-    - name: Fetch Required Environmental Variables
+    - name: Fetch Required Environmental Variable - HTTP_URL
       ansible.builtin.set_fact:
         nfc_c_http_server: "{{ lookup('ansible.builtin.env', 'HTTP_URL') | default('') }}"
       when: >
         lookup('ansible.builtin.env', 'HTTP_URL') | default('') != ''
+
+
+    - name: Fetch Required Environmental Variable - HTTP_PORT
+      ansible.builtin.set_fact:
+        nfc_c_http_port: "{{ lookup('ansible.builtin.env', 'HTTP_PORT') | default('') }}"
+      when: >
+        lookup('ansible.builtin.env', 'HTTP_PORT') | default('') != ''
 
 
     - name: Confirm 'api_url' is Set
@@ -83,6 +90,9 @@
 
 
   vars: # ToDo: remove the below t4est vars
+    nfc_c_http_port: 5000
+    nfc_c_http_server: http://127.0.0.1
+
     api_address: addresses
     api_subnets: subnets
     api_scanagents: tools/scanagents
