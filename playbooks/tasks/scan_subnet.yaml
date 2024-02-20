@@ -26,17 +26,23 @@
     subnet_scan_results: |-
       [
       {% for scanned_host in ((nmap_scan.stdout | ansible.utils.from_xml) | from_yaml).nmaprun.host %}
-        {% if scanned_host.address[0]['@addrtype'] | default('') == 'ipv4' %}
+        {% if
+          scanned_host.address[0]['@addrtype'] | default('') == 'ipv4'
+            or
+          scanned_host.address['@addrtype'] | default('') == 'ipv4'
+        %}
           {
-            {% for cached_host in cached_subnet -%}
-              {%- if cached_host.ip == scanned_host.address[0]['@addr'] -%}
+            {% for cached_host in cached_subnet | default([]) -%}
+              {%- if cached_host.ip == scanned_host.address['@addr'] | default(scanned_host.address[0]['@addr']) -%}
                 "id": {{ cached_host.id }},
                 {%- endif -%}
             {%- endfor %}
             "subnetId": "{{ subnet.id }}",
-            "ip": "{{ scanned_host.address[0]['@addr'] }}",
+            "ip": "{{ scanned_host.address['@addr'] | default(scanned_host.address[0]['@addr']) }}",
             "lastSeen": "{{ nmap_scan.start }}",
-            "mac": "{{ scanned_host.address[1]['@addr'] | upper }}"
+            {% if scanned_host.address['@addrtype'] | default(scanned_host.address[1]['@addrtype']) == 'mac' %}
+              "mac": "{{ scanned_host.address['@addr'] | default(scanned_host.address[1]['@addr']) | upper }}"
+            {% endif %}
           },
         {% endif %}
       {% endfor %}

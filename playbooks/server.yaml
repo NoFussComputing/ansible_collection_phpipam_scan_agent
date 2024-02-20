@@ -38,7 +38,9 @@
           SELECT id, subnet FROM subnets WHERE
             scanAgent='{{ mysql_query_agent_details.query_result[0][0].id }}'
               and
-            subnet='{{ inbound_data.scan[0].subnet | ip2ipam }}'
+            subnet='{{ (inbound_data.scan.subnet | split('/'))[0] | ip2ipam }}'
+              and
+            mask = '{{ (inbound_data.scan.subnet | split('/'))[1] | int }}'
         single_transaction: true
       register: mysql_query_agent_subnets
 
