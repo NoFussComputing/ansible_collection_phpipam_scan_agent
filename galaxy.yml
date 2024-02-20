@@ -45,7 +45,9 @@ tags:
 # collection label 'namespace.name'. The value is a version range
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
-dependencies: {}
+dependencies:
+  ansible.eda: '1.4.5'
+  community.mysql: '3.8.0'
 
 # The URL of the originating SCM repository
 repository: https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent
