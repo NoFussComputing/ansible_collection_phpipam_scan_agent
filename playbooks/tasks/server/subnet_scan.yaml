@@ -14,12 +14,14 @@
         id, description, state, note, lastSeen
       FROM ipaddresses
       WHERE
-        id='{{ ipaddress.id }}'
-          AND
+        {% if ipaddress.id is defined %}
+          id='{{ ipaddress.id }}'
+            AND
+        {% endif %}
         ip_addr='{{ ipaddress.ip | ip2ipam }}'
     single_transaction: true
   register: mysql_query_find_ipaddress
-  loop: "{{ scan_result.results }}"
+  loop: "{{ scan_result }}"
   loop_control:
     loop_var: ipaddress
 

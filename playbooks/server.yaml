@@ -53,10 +53,8 @@
     - name: Process Scan results
       ansible.builtin.include_tasks:
         file: tasks/server/subnet_scan.yaml
-      loop: "{{ inbound_data.scan }}"
-      loop_control:
-        loop_var: scan_result
-        label: "{{ scan_result }}"
+      vars:
+        scan_result: "{{ inbound_data.scan.results }}"
 
 
   vars:
