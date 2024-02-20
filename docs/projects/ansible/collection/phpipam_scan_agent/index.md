@@ -41,6 +41,11 @@ Currenty this collection has the following features:
 
 - [**ToDo** Host Self-Update](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/2)
 
+- MAC Address updating*
+
+    !!! info
+        It's only possible to obtain a MAC Address if the scanner is on the same L2 network (Broadcast Domain). Within the docs you will find the different methods available to achieve this.
+
 - [**ToDo** Remote Network Scanning](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/1)
 
 - [**ToDo** Resolve DNS names](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/4)
