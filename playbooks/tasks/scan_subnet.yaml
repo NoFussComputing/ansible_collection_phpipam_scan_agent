@@ -28,7 +28,7 @@
   ansible.builtin.set_fact:
     subnet_scan_results: |-
       [
-      {% for scanned_host in ((nmap_scan.stdout | ansible.utils.from_xml) | from_yaml).nmaprun.host %}
+      {% for scanned_host in ((nmap_scan.stdout | ansible.utils.from_xml) | from_yaml).nmaprun.host | default([]) %}
         {% if
           scanned_host.address[0]['@addrtype'] | default('') == 'ipv4'
             or

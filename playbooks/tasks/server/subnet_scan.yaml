@@ -29,7 +29,7 @@
 - name: Update IP Addresses
   ansible.builtin.include_tasks:
     file: tasks/server/ipaddress.yaml
-  loop: "{{ mysql_query_find_ipaddress.results }}"
+  loop: "{{ mysql_query_find_ipaddress.results | default([]) }}"
   loop_control:
     loop_var: scan_address
     label: "{{ scan_address }}"
