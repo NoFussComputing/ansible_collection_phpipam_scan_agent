@@ -26,3 +26,4 @@
     loop_var: network
   vars:
     data: "{{ lookup('file', cache_filepath) }}"
+  when: network.discoverSubnet | int == 1
