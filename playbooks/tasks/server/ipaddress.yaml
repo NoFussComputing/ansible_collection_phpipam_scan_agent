@@ -16,9 +16,9 @@
 
         UPDATE ipaddresses
         SET
-          lastSeen = '{{ scan_address.ipaddress.lastSeen }}',
+          lastSeen = '{{ scan_address.ipaddress.lastSeen }}'
 
-          {% if scan_address.ipaddress.mac != '' %}
+          {% if scan_address.ipaddress.mac | default('') != '' %},
 
             mac = '{{ scan_address.ipaddress.mac }}'
 
