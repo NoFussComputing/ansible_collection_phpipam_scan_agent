@@ -24,7 +24,7 @@ nav:
 
     - Collections: 
 
-      - docs/projects/ansible/collection/index.md
+      - projects/ansible/collection/index.md
 
       - phpIPAM Scan Agent:
 
