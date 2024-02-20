@@ -34,6 +34,7 @@
       ansible.builtin.assert:
         that:
           - api_url is defined
+          - api_url != ''
         msg: "missing Required Variables"
 
 

@@ -62,7 +62,7 @@
           {%- endif %}
       ansible.builtin.uri:
         url: >-
-          https://phpipam.local/api/{{ api_client_name }}/{{ api_path }}
+          {{ api_url }}/api/{{ api_client_name }}/{{ api_path }}
           {%- if api_query_string is defined -%}
             /?{{ api_query_string }}
           {%- endif %}
