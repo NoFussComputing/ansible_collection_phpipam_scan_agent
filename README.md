@@ -1,14 +1,12 @@
+<span align="center">
 
 # No Fuss Computing - Ansible Collection PHPIPAM Scan Agent
 
-.
-
 ![Project Status - Active](https://img.shields.io/badge/Project%20Status-Active-green?logo=gitlab&style=plastic) 
 
-.
-
 ----
-.
+
+<br>
 
 ![Gitlab forks count](https://img.shields.io/badge/dynamic/json?label=Forks&query=%24.forks_count&url=https%3A%2F%2Fgitlab.com%2Fapi%2Fv4%2Fprojects%2F55052132%2F&color=ff782e&logo=gitlab&style=plastic) ![Gitlab stars](https://img.shields.io/badge/dynamic/json?label=Stars&query=%24.star_count&url=https%3A%2F%2Fgitlab.com%2Fapi%2Fv4%2Fprojects%2F55052132%2F&color=ff782e&logo=gitlab&style=plastic) [![Open Issues](https://img.shields.io/badge/dynamic/json?color=ff782e&logo=gitlab&style=plastic&label=Open%20Issues&query=%24.statistics.counts.opened&url=https%3A%2F%2Fgitlab.com%2Fapi%2Fv4%2Fprojects%2F55052132%2Fissues_statistics)](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues)
 
@@ -44,6 +42,7 @@ This project is hosted on [gitlab](https://gitlab.com/nofusscomputing/projects/a
 [![Docker Image Version](https://img.shields.io/docker/v/nofusscomputing/phpipam-scan-agent?sort=semver&style=plastic&logo=docker&logoColor=0db7ed&color=0db7ed&label=Latest%20Release)](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent)
 [![Docker Pulls](https://img.shields.io/docker/pulls/nofusscomputing/phpipam-scan-agent?style=plastic&logo=docker&logoColor=0db7ed&color=0db7ed)](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent)
 
+</span>
 
 ----
 
