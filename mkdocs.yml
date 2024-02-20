@@ -1,0 +1,42 @@
+INHERIT: website-template/mkdocs.yml
+
+docs_dir: 'docs'
+
+repo_name: phpIPAM Scan Agent
+repo_url: https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent
+edit_uri: '/-/ide/project/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/edit/development/-/docs/'
+
+nav:
+
+- Home: index.md
+
+- Articles: 
+
+  - articles/index.md
+
+- Projects: 
+
+  - projects/index.md
+
+  - Ansible:
+
+    - projects/ansible/index.md
+
+    - Collections: 
+
+      - docs/projects/ansible/collection/index.md
+
+      - phpIPAM Scan Agent:
+
+        - projects/ansible/collection/phpipam_scan_agent/index.md
+
+        - projects/ansible/collection/phpipam_scan_agent/scanner.md
+
+        - projects/ansible/collection/phpipam_scan_agent/server.md
+
+- Operations: 
+
+  - operations/index.md
+
+- Contact Us: contact.md
+

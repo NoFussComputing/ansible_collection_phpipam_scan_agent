@@ -25,6 +25,7 @@ include:
     file:
       - .gitlab-ci_common.yaml
       - template/ansible-collection.gitlab-ci.yaml
+      - template/mkdocs-documentation.gitlab-ci.yaml
       # ToDo: update gitlabCI jobs for collections workflow
       - git_push_mirror/.gitlab-ci.yml
 
