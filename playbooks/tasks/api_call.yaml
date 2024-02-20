@@ -43,6 +43,7 @@
           - "epoch:  {{ (epoch | int + nfc_c_epoch_time_offset | int) | int }} [{{ nfc_c_cache_expire_time }}]"
           - "epoch: {{ epoch }}"
           - "expired: {{ expired }}"
+      when: cache_files.stat.exists
 
     - name: Expire Cache
       ansible.builtin.file:
@@ -69,8 +70,9 @@
         return_content: true
         status_code:
           - 200
+          - 404
         validate_certs: false
-      changed_when: "{{ api_call.json | length | int > 0 }}"
+      changed_when: api_call.json | length | int > 0
       no_log: true
       register: api_call
       when: >
@@ -89,6 +91,8 @@
         state: directory
       when: >
         '/' in api_path
+          and
+        api_call.status | default(0) | int != 404
 
 
     - name: Cache Data
@@ -103,3 +107,5 @@
         )
           or
         not cache_files.stat.exists
+          and
+        api_call.status | default(0) | int != 404

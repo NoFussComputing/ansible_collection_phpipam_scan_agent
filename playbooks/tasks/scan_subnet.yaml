@@ -19,6 +19,9 @@
   ansible.builtin.set_fact:
     cached_subnet: "{{ lookup('file', cache_filepath) }}"
     cacheable: false
+  no_log: true
+  when: >
+    api_call.status | default(0) | int != 404
 
 
 - name: Process Scan Results
