@@ -5,6 +5,59 @@
 
   tasks:
 
+
+    - name: Fetch Required Environmental Variables
+      ansible.builtin.set_fact:
+        client_token: "{{ lookup('ansible.builtin.env', 'SCANNER_TOKEN') | default('') }}"
+        client_name: "{{ lookup('ansible.builtin.env', 'SCANNER_NAME') }}"
+        scanagent_code: "{{ lookup('ansible.builtin.env', 'SCANNER_CODE') | default('') }}"
+        api_url: "{{ lookup('ansible.builtin.env', 'API_URL') | default('') }}"
+      no_log: true
+      when: >
+        client_token is not defined
+          and
+        client_name is not defined
+          and
+        scanagent_code is not defined
+          and
+        api_url is not defined
+
+
+    - name: Fetch Required Environmental Variables
+      ansible.builtin.set_fact:
+        nfc_c_http_server: "{{ lookup('ansible.builtin.env', 'HTTP_URL') | default('') }}"
+      when: >
+        lookup('ansible.builtin.env', 'HTTP_URL') | default('') != ''
+
+
+    - name: Confirm 'api_url' is Set
+      ansible.builtin.assert:
+        that:
+          - api_url is defined
+        msg: "missing Required Variables"
+
+
+    - name: Confirm 'client_token' is Set
+      ansible.builtin.assert:
+        that:
+          - client_token is defined
+        msg: "missing Required Variables"
+
+
+    - name: Confirm 'client_name' is Set
+      ansible.builtin.assert:
+        that:
+          - client_name is defined
+        msg: "missing Required Variables"
+
+
+    - name: Confirm 'scanagent_code' is Set
+      ansible.builtin.assert:
+        that:
+          - scanagent_code is defined
+        msg: "missing Required Variables"
+
+
     - name: Create API Cache Directory
       ansible.builtin.file:
         path: "{{ nfc_c_path_cache }}"

@@ -7,6 +7,15 @@
   tasks:
 
 
+    - name: Fetch Required Environmental Variables
+      ansible.builtin.set_fact:
+        nfc_c_mysql_host: "{{ lookup('ansible.builtin.env', 'MYSQL_HOST') | default('') }}"
+        nfc_c_mysql_port: "{{ lookup('ansible.builtin.env', 'MYSQL_PORT') | default(3306) | int }}"
+        nfc_c_mysql_user: "{{ lookup('ansible.builtin.env', 'MYSQL_USER') | default('') }}"
+        nfc_c_mysql_password: "{{ lookup('ansible.builtin.env', 'MYSQL_PASSWORD') | default('') }}"
+      no_log: true
+
+
     - name: TRACE Inbound data Received
       ansible.builtin.debug:
         msg: "{{ inbound_data }}"

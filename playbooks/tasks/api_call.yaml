@@ -9,6 +9,7 @@
           - api_client_name is defined
           - api_path is defined
           - api_token is defined
+          - api_url is defined
 
 
     - name: API Facts
