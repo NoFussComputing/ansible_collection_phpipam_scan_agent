@@ -32,19 +32,29 @@
       %}
 
         INSERT INTO ipaddresses
+          (
+            subnetId,
+            ip_addr,
+            description,
+            {% if scan_address.ipaddress.mac | default('') != '' %}mac,{% endif %}
+            note,
+            lastSeen
+          )
         VALUES
-          subnetId = {{ scan_address.ipaddress.subnetId | int }},
-          ip_addr = '{{ scan_address.ipaddress.ip | ip2ipam }}',
-          description = '-- autodiscovered --',
+          (
+            {{ scan_address.ipaddress.subnetId | int }},
+            '{{ scan_address.ipaddress.ip | ip2ipam }}',
+            '-- autodiscovered --',
 
-          {% if scan_address.ipaddress.mac != '' %}
+            {% if scan_address.ipaddress.mac | default('') != '' %}
 
-            mac = '{{ scan_address.ipaddress.mac }}',
+              '{{ scan_address.ipaddress.mac }}',
 
-          {% endif %}
+            {% endif %}
 
-          note = 'This host was autodiscovered on {{ scan_address.ipaddress.lastSeen }}',
-          lastSeen = '{{ scan_address.ipaddress.lastSeen }}',
+            'This host was autodiscovered on {{ scan_address.ipaddress.lastSeen }}',
+            '{{ scan_address.ipaddress.lastSeen }}'
+          )
 
       {% endif %}
 
