@@ -87,4 +87,3 @@
     api_scanagents: tools/scanagents
     nfc_c_path_cache: "{{ playbook_dir }}/../cache"
     nfc_c_cache_expire_time: 1800
-    nfc_c_epoch_time_offset: "{{ -((3600 * 9) + 1800 | int) | int }}"

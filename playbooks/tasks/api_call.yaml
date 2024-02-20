@@ -31,7 +31,7 @@
 
     - name: Expire
       ansible.builtin.set_fact:
-        expired: "{{ ((epoch | int + nfc_c_epoch_time_offset | int) >= ((cache_files.stat.mtime | int) + nfc_c_cache_expire_time | int) | int ) | bool }}"
+        expired: "{{ ((epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) >= ((cache_files.stat.mtime | int) + nfc_c_cache_expire_time | int) | int ) | bool }}"
       when: cache_files.stat.exists
 
 
@@ -41,7 +41,7 @@
           - "exists: {{ cache_files.stat.exists | default('') }}"
           - "mtime:  {{ cache_files.stat.mtime | default(0) | int }}"
           - "expire: {{ (cache_files.stat.mtime | int) + nfc_c_cache_expire_time | int }}" 
-          - "epoch:  {{ (epoch | int + nfc_c_epoch_time_offset | int) | int }} [{{ nfc_c_cache_expire_time }}]"
+          - "epoch:  {{ (epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) | int }} [{{ nfc_c_cache_expire_time }}]"
           - "epoch: {{ epoch }}"
           - "expired: {{ expired }}"
       when: cache_files.stat.exists
