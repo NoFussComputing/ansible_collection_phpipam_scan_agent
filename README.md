@@ -41,6 +41,8 @@ This project is hosted on [gitlab](https://gitlab.com/nofusscomputing/projects/a
 
 **Docker Hub**
 
+[![Docker Image Version](https://img.shields.io/docker/v/nofusscomputing/phpipam-scan-agent?sort=semver&style=plastic&logo=docker&logoColor=0db7ed&color=0db7ed&label=Latest%20Release)](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent)
+[![Docker Pulls](https://img.shields.io/docker/pulls/nofusscomputing/phpipam-scan-agent?style=plastic&logo=docker&logoColor=0db7ed&color=0db7ed)](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent)
 
 
 ----
