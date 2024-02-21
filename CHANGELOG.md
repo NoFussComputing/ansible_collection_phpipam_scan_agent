@@ -2,6 +2,12 @@
 
 ### Fix
 
+- **build**: ensure the correct tags and architectures are published
+
+## 0.1.1 (2024-02-21)
+
+### Fix
+
 - **ci**: use correct collection name
 
 ## 0.1.0 (2024-02-21)
