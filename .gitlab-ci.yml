@@ -1,6 +1,6 @@
 
 variables:
-  ANSIBLE_GALAXY_PACKAGE_NAME: phpipam_scanagent
+  ANSIBLE_GALAXY_PACKAGE_NAME: phpipam_scan_agent
   GIT_SYNC_URL: "https://$GITHUB_USERNAME_ROBOT:$GITHUB_TOKEN_ROBOT@github.com/NoFussComputing/ansible_collection_phpipam_scan_agent.git"
   # GIT_SUBMODULE_PATHS: gitlab-ci
   GIT_SUBMODULE_DEPTH: 1
@@ -136,16 +136,16 @@ Github (Push --mirror):
 
       docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD;
 
-      for i in ${DOCKER_IMAGE_BUILD_TARGET_PLATFORMS//,/ }
-      do
+      # for i in ${DOCKER_IMAGE_BUILD_TARGET_PLATFORMS//,/ }
+      # do
 
-        docker buildx imagetools inspect $DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG;
+      docker buildx imagetools inspect $DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG;
 
-        DOCKER_MULTI_ARCH_IMAGES=$(docker buildx imagetools inspect "$DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG" --format "{{ range .Manifest.Manifests }}$DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG@{{ println .Digest }} {{end}}")
+      DOCKER_MULTI_ARCH_IMAGES=$(docker buildx imagetools inspect "$DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG" --format "{{ range .Manifest.Manifests }}$DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG@{{ println .Digest }} {{end}}")
 
-        echo "[DEBUG] DOCKER_MULTI_ARCH_IMAGES=$DOCKER_MULTI_ARCH_IMAGES";
+      echo "[DEBUG] DOCKER_MULTI_ARCH_IMAGES=$DOCKER_MULTI_ARCH_IMAGES";
 
-      done;
+      # done;
 
   script:
     - docker login docker.io -u $NFC_DOCKERHUB_USERNAME -p $NFC_DOCKERHUB_TOKEN
