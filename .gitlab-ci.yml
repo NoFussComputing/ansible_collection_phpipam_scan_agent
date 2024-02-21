@@ -151,35 +151,44 @@ Github (Push --mirror):
     - docker login docker.io -u $NFC_DOCKERHUB_USERNAME -p $NFC_DOCKERHUB_TOKEN
     - docker image ls
     - |
-      DOCKER_HUB_TAG=dev
+      # DOCKER_HUB_TAG=dev
 
-      echo "[DEBUG] default: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
+      # echo "[DEBUG] default: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
 
-      if [ "$CI_COMMIT_BRANCH" == "master" ]; then
+      # if [ "$CI_COMMIT_BRANCH" == "master" ]; then
 
-        DOCKER_HUB_TAG=latest
+      #   DOCKER_HUB_TAG=latest
 
-        echo "[DEBUG] stable: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
+      #   echo "[DEBUG] stable: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
 
-      elif [ "$CI_COMMIT_BRANCH" == "development" ]; then
+      # fi;
 
-          DOCKER_HUB_TAG=dev
+      # if [ "$CI_COMMIT_BRANCH" == "development" ]; then
 
-          echo "[DEBUG] dev: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
+      #     DOCKER_HUB_TAG=dev
 
-      fi;
+      #     echo "[DEBUG] dev: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
+
+      # fi;
+
 
       echo "[DEBUG] DOCKER_IMAGE_PUBLISH_NAME=$DOCKER_IMAGE_PUBLISH_NAME";
 
-      echo "[DEBUG] final: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
+      # echo "[DEBUG] final: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
 
       echo "[DEBUG] DOCKER_MULTI_ARCH_IMAGES=$DOCKER_MULTI_ARCH_IMAGES";
       
-      docker buildx imagetools create $DOCKER_MULTI_ARCH_IMAGES --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:$DOCKER_HUB_TAG;
+      
 
       if [ "${CI_COMMIT_TAG}" ]; then
 
         docker buildx imagetools create $DOCKER_MULTI_ARCH_IMAGES --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:$CI_COMMIT_TAG;
+
+        docker buildx imagetools create $DOCKER_MULTI_ARCH_IMAGES --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:latest;
+
+      else
+
+        docker buildx imagetools create $DOCKER_MULTI_ARCH_IMAGES --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:dev;
 
       fi;
 
