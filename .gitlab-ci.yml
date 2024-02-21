@@ -1,7 +1,7 @@
 
 variables:
   ANSIBLE_GALAXY_PACKAGE_NAME: phpipam_scanagent
-  GIT_SYNC_URL: "https://$GITHUB_USERNAME_ROBOT:$GITHUB_TOKEN_ROBOT@github.com/NoFussComputing/docker-bind.git"
+  GIT_SYNC_URL: "https://$GITHUB_USERNAME_ROBOT:$GITHUB_TOKEN_ROBOT@github.com/NoFussComputing/ansible_collection_phpipam_scan_agent.git"
   # GIT_SUBMODULE_PATHS: gitlab-ci
   GIT_SUBMODULE_DEPTH: 1
 
