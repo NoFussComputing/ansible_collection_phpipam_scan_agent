@@ -26,6 +26,11 @@ ansible-playbook nofusscomputing.phpipam_scan_agent.agent \
 _See below for the variable details_
 
 
+### phpIPAM API
+
+The scanner component requires API access to phpIPAM. THe API user that is used, must only be given read only access to the API.
+
+
 ### Variables
 
 The variables described below, if optional the value specified here is the default value. Any variable that can be set via environmental variables have the variable name enclosed in `[]`
@@ -51,6 +56,21 @@ nfc_c_epoch_time_offset: 0             # optional, int. Value in seconds to offs
 
 !!! tip
     You can specify environmental variable `ANSIBLE_LOG_PATH=/var/log/ansible.log`, which will tell the scanner component to log to a file at path `/var/log/ansible.log`
+
+
+#### phpIPAM Interface variable Mapping
+
+These images are of the phpIPAM interface that show in green text the variable name that would be set as detailed above.
+
+![phpIPAM API](images/phpipam_api.png)
+
+phpIPAM API Settings
+
+----
+
+![phpIPAM Scan Agent](images/phpipam_scan_agent_details.png)
+
+phpIPAM Scan Agent Settings
 
 
 ## Workflow
