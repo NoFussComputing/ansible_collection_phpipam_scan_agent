@@ -1,0 +1,18 @@
+---
+
+- name: Get My ScanAgent ID
+  ansible.builtin.include_tasks:
+    file: tasks/api_call.yaml
+  vars:
+    api_client_name: "{{ client_name }}"
+    api_token: "{{ client_token }}"
+    api_path: "{{ api_scanagents }}"
+    api_query_string: "filter_by=code&filter_value={{ scanagent_code }}"
+
+
+- name: My ScanAgent ID
+  ansible.builtin.set_fact:
+    nfc_c_scan_agent_id: "{{ data[0].id }}"
+  failed_when: data[0].id is not defined
+  vars:
+    data: "{{ lookup('file', cache_filepath) }}"

@@ -1,0 +1,70 @@
+---
+
+- name: Scan subnet
+  ansible.builtin.command:
+    cmd: nmap -sn "{{ subnet.address }}" -oX -
+  become: true
+  register: nmap_scan
+- name: Get subnets Address'
+  ansible.builtin.include_tasks:
+    file: tasks/api_call.yaml
+  vars:
+    api_client_name: "{{ client_name }}"
+    api_token: "{{ client_token }}"
+    api_path: "{{ api_address }}"
+    api_query_string: "filter_by=subnetId&filter_value={{ subnet.id }}"
+
+
+- name: Load Subnet
+  ansible.builtin.set_fact:
+    cached_subnet: "{{ lookup('file', cache_filepath) }}"
+    cacheable: false
+  no_log: true
+  when: >
+    api_call.status | default(0) | int != 404
+
+
+- name: Process Scan Results
+  ansible.builtin.set_fact:
+    subnet_scan_results: |-
+      [
+      {% for scanned_host in ((nmap_scan.stdout | ansible.utils.from_xml) | from_yaml).nmaprun.host | default([]) %}
+        {% if
+          scanned_host.address[0]['@addrtype'] | default('') == 'ipv4'
+            or
+          scanned_host.address['@addrtype'] | default('') == 'ipv4'
+        %}
+          {
+            {% for cached_host in cached_subnet | default([]) -%}
+              {%- if cached_host.ip == scanned_host.address['@addr'] | default(scanned_host.address[0]['@addr']) -%}
+                "id": {{ cached_host.id }},
+                {%- endif -%}
+            {%- endfor %}
+            "subnetId": "{{ subnet.id }}",
+            "ip": "{{ scanned_host.address['@addr'] | default(scanned_host.address[0]['@addr']) }}",
+            "lastSeen": "{{ nmap_scan.start }}",
+            {% if scanned_host.address['@addrtype'] | default(scanned_host.address[1]['@addrtype']) == 'mac' %}
+              "mac": "{{ scanned_host.address['@addr'] | default(scanned_host.address[1]['@addr']) | upper }}"
+            {% endif %}
+          },
+        {% endif %}
+      {% endfor %}
+      ]
+
+- name: To JSON
+  ansible.builtin.set_fact:
+    subnet_scan_results: "{{ subnet_scan_results | from_yaml }}"
+
+
+- name: Upload Scan Results
+  ansible.builtin.uri:
+    url: "{{ nfc_c_http_server }}:{{ nfc_c_http_port }}/"
+    method: POST
+    body_format: json
+    body: {
+      "code": "{{ scanagent_code }}",
+      "scan": {
+        "subnet": "{{ subnet.address }}",
+        "results": "{{ subnet_scan_results }}"
+      }
+    }

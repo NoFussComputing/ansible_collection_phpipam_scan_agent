@@ -1,0 +1,5 @@
+#
+# Default Scanner Scheduled Job
+#
+
+*/5 * * * * ansible-playbook nofusscomputing.phpipam_scan_agent.agent -v

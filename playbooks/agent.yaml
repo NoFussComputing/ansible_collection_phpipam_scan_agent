@@ -1,0 +1,100 @@
+- name: Fetch API Data
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+
+
+    - name: Fetch Required Environmental Variables
+      ansible.builtin.set_fact:
+        client_token: "{{ lookup('ansible.builtin.env', 'SCANNER_TOKEN') | default('') }}"
+        client_name: "{{ lookup('ansible.builtin.env', 'SCANNER_NAME') }}"
+        scanagent_code: "{{ lookup('ansible.builtin.env', 'SCANNER_CODE') | default('') }}"
+        api_url: "{{ lookup('ansible.builtin.env', 'API_URL') | default('') }}"
+      no_log: true
+      when: >
+        client_token is not defined
+          and
+        client_name is not defined
+          and
+        scanagent_code is not defined
+          and
+        api_url is not defined
+
+
+    - name: Fetch Required Environmental Variable - HTTP_URL
+      ansible.builtin.set_fact:
+        nfc_c_http_server: "{{ lookup('ansible.builtin.env', 'HTTP_URL') | default('') }}"
+      when: >
+        lookup('ansible.builtin.env', 'HTTP_URL') | default('') != ''
+
+
+    - name: Fetch Required Environmental Variable - HTTP_PORT
+      ansible.builtin.set_fact:
+        nfc_c_http_port: "{{ lookup('ansible.builtin.env', 'HTTP_PORT') | default('') }}"
+      when: >
+        lookup('ansible.builtin.env', 'HTTP_PORT') | default('') != ''
+
+
+    - name: Confirm 'api_url' is Set
+      ansible.builtin.assert:
+        that:
+          - api_url is defined
+          - api_url != ''
+        msg: "missing Required Variables"
+
+
+    - name: Confirm 'client_token' is Set
+      ansible.builtin.assert:
+        that:
+          - client_token is defined
+        msg: "missing Required Variables"
+
+
+    - name: Confirm 'client_name' is Set
+      ansible.builtin.assert:
+        that:
+          - client_name is defined
+        msg: "missing Required Variables"
+
+
+    - name: Confirm 'scanagent_code' is Set
+      ansible.builtin.assert:
+        that:
+          - scanagent_code is defined
+        msg: "missing Required Variables"
+
+
+    - name: Create API Cache Directory
+      ansible.builtin.file:
+        path: "{{ nfc_c_path_cache }}"
+        state: directory
+
+    - name: Agent ID
+      ansible.builtin.include_tasks:
+        file: tasks/agent_id.yaml
+
+
+    - name: Subnets
+      ansible.builtin.include_tasks:
+        file: tasks/subnets.yaml
+
+
+    - name: Scan Subnet
+      ansible.builtin.include_tasks:
+        file: tasks/scan_subnet.yaml
+      loop: "{{ nfc_c_scan_agent_subnets }}"
+      loop_control:
+        loop_var: subnet
+
+
+  vars: # ToDo: remove the below t4est vars
+    nfc_c_http_port: 5000
+    nfc_c_http_server: http://127.0.0.1
+
+    api_address: addresses
+    api_subnets: subnets
+    api_scanagents: tools/scanagents
+    nfc_c_path_cache: "{{ playbook_dir }}/../cache"
+    nfc_c_cache_expire_time: 1800
