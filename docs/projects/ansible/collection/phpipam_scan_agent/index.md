@@ -53,6 +53,21 @@ The following features are available or planned to be implmented:
 - [**ToDo** Resolve DNS names](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/4)
 
 
+## phpIPAM Features
+
+This section describes the phpIPAM settings and what they each do for the scanner/server component. Regardless of any setting detailed below, unless otherwise specified. If the scan agent is not assigned to the subnet, the subnet will not be scanned.
+
+
+### Discover new hosts
+
+- Location `Subnet -> Discover new hosts`
+
+When this setting is enabled, the scanner will scan the entire subnet that has been assigned to it. Every host that is found is updated in phpIPAM.
+
+!!! note
+    the work in [Hosts check](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/3), will adjust this behaviour to only add hosts that dont exist.
+
+
 ## Development Notes
 
 Contributions to this project are welcome. Below you will find some useful commands for use during development.
