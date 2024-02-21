@@ -22,6 +22,7 @@ ansible-playbook nofusscomputing.phpipam_scan_agent.agent \
   --extra-vars "scanagent_code=<your value here>"
 
 ```
+
 _See below for the variable details_
 
 
@@ -30,6 +31,7 @@ _See below for the variable details_
 The variables described below, if optional the value specified here is the default value. Any variable that can be set via environmental variables have the variable name enclosed in `[]`
 
 ``` yaml
+
 client_token: ""                       # Mandatory, String client api token to connect to phpIPAM API [SCANNER_TOKEN]
 client_name: ""                        # Mandatory, String. The scanner name as set in phpIPAM interface [SCANNER_NAME]
 scanagent_code: ""                     # Mandatory, String. Scan Agent Code as set in phpIPAM interface [SCANNER_CODE]
@@ -46,3 +48,34 @@ nfc_c_cache_expire_time: 1800          # Optional, Integer. Time in seconds to e
 nfc_c_epoch_time_offset: 0             # optional, int. Value in seconds to offset the time
 
 ```
+
+!!! tip
+    You can specify environmental variable `ANSIBLE_LOG_PATH=/var/log/ansible.log`, which will tell the scanner component to log to a file at path `/var/log/ansible.log`
+
+
+## Workflow
+
+The scanner component has the following workflow:
+
+1. Expire cache, if cache expiry has elapsed.
+
+1. Fetch from the phpIPAM API, the subnets assigned to it. _results are cached_
+
+1. Fetch ALL address' from phpIPAM API, that are assosiated with agent subnets. _results are cached_
+
+1. For each network:
+
+    1. conduct Scan of network.
+
+        !!! info
+            The following details are included in the scan report:
+    
+            - IP Address
+    
+            - MAC Address* _Only if the scanner is on the same L2 network (Broadcast Domain)_
+
+    1. Re-format nmap scan report to format Server component recognizes.
+
+    1. upload scan report to configured Server.
+
+1. workflow complete.

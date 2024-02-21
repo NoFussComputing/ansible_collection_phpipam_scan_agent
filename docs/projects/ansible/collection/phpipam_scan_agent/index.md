@@ -21,21 +21,23 @@ about: https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_s
 
 A phpIPAM scan agent designed for both local and remote network scanning. This Ansible Collection contains all of the componets required to launch a scan agent that will report back to the phpIPAM server. This collection is also built into it's own docker container and is [available on Docker Hub](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent).
 
-This collection has been broken down into two components, a server and a scanner. The scanner as the name implies will scan the networks assigned to it by phpIPAM and on completing a scan of a subnet, will post the results to the Server component which will process the results, and update the phpIPAM MySQL/MariaDB database directly.
+This collection has been broken down into two components, a [server](server.md) and a [scanner](scanner.md). The scanner as the name implies will scan the networks assigned to it by phpIPAM and on completing a scan of a subnet, will post the results to the Server component which will process the results, and update the phpIPAM MySQL/MariaDB database directly.
 
 
 ## Installation
 
 This collection is available on Ansible Galaxy and can be installed with `ansible-galaxy collection install nofusscomputing.phpipam_scan_agent`. When installing all of the required dependencies are installed.
 
-Prefer to use our docker image? It's available on Docker Hub `docker pull nofusscomputing/phpipam-scan-agent:latest`.
+Prefer to use our [docker](docker.md) image? It's available on Docker Hub `docker pull nofusscomputing/phpipam-scan-agent:latest`.
 
 
 ## Features
 
-Currenty this collection has the following features:
+The following features are available or planned to be implmented:
 
 - Discover new hosts
+
+- [**ToDo** Execute scan from remote host](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/7)
 
 - [**ToDo** Hosts check](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/3)
 
@@ -50,3 +52,34 @@ Currenty this collection has the following features:
 
 - [**ToDo** Resolve DNS names](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/4)
 
+
+## Development Notes
+
+Contributions to this project are welcome. Below you will find some useful commands for use during development.
+
+``` bash
+# To build the container. ensure the changes are commited and push to you feature branch
+docker build . --tag scan-agent:dev --build-arg  COLLECTION_BRANCH=<your feature branch name> --build-arg COLLECTION_COMMIT=$(git log -n1 --format=format:"%H")
+
+
+# Launch your build container
+docker run \
+    -d \
+    -e "API_URL=<your value here>" \
+    -e "MYSQL_HOST=<your value here>" \
+    -e "MYSQL_USER=<your value here>" \
+    -e "MYSQL_PASSWORD=<your value here>" \
+    -e "SCANNER_TOKEN=<your value here>" \
+    -e "SCANNER_NAME=<your value here>" \
+    -e "SCANNER_CODE=<your value here>" \
+    -e "ANSIBLE_LOG_PATH=/var/log/ansible.log" \
+    -p "5000:5000" \
+    --name scan-agent \
+    scan-agent:dev;
+
+# remove launched dev container
+docker rm --force scan-agent
+
+```
+
+Our docker build file has been designed so that during development it will pull from the repository branch as specified to find the collection to install. if you fail to specify your feature branch, the collection will not install the work you have been doing.
