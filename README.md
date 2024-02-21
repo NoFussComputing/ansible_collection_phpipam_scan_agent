@@ -32,8 +32,8 @@ This project is hosted on [gitlab](https://gitlab.com/nofusscomputing/projects/a
 
 **Ansible Galaxy**
 
-[![Latest Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphp_scan_agent%2F&query=%24.highest_version.version&style=plastic&logo=ansible&logoColor=white&label=Latest%20Release&labelColor=black&color=cyan)](https://galaxy.ansible.com/ui/repo/published/nofusscomputing/ci_test_collection/)
-![Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphp_scan_agent%2F&query=%24.download_count&style=plastic&logo=ansible&logoColor=white&label=Downloads&labelColor=black&color=cyan)
+[![Latest Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphpipam_scan_agent%2F&query=%24.highest_version.version&style=plastic&logo=ansible&logoColor=white&label=Latest%20Release&labelColor=black&color=cyan)](https://galaxy.ansible.com/ui/repo/published/nofusscomputing/phpipam_scan_agent/)
+![Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphpipam_scan_agent%2F&query=%24.download_count&style=plastic&logo=ansible&logoColor=white&label=Downloads&labelColor=black&color=cyan)
 
 ----
 
