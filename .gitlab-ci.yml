@@ -31,6 +31,11 @@ include:
       - git_push_mirror/.gitlab-ci.yml
 
 
+Github (Push --mirror):
+  extends:
+    - .git_push_mirror
+  needs: []
+
 
 .build_docker_container:
   stage: prepare
