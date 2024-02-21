@@ -208,8 +208,6 @@ Docker Container (dev):
       when: never
 
     - if:
-        $CI_COMMIT_BRANCH != "development"
-          &&
         $CI_COMMIT_BRANCH != "master"
           &&
         $CI_PIPELINE_SOURCE == "push"
@@ -251,11 +249,11 @@ Docker Container:
     - if: "$CI_COMMIT_AUTHOR =='nfc_bot <helpdesk@nofusscomputing.com>'"
       when: never
 
-    - if: # Occur on merge
-        $CI_COMMIT_BRANCH == "development"
-          &&
-        $CI_PIPELINE_SOURCE == "push"
-      when: always
+    # - if: # Occur on merge
+    #     $CI_COMMIT_BRANCH == "development"
+    #       &&
+    #     $CI_PIPELINE_SOURCE == "push"
+    #   when: always
 
     - when: never
 
