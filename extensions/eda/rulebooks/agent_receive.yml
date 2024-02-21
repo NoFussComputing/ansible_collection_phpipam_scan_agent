@@ -1,0 +1,25 @@
+- name: Agent Webhook
+  hosts: all
+  execution_strategy: parallel
+
+  sources:
+    - name: Webhook
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: "{{ HTTP_PORT }}"
+
+  rules:
+
+    - name: Process inbound Subnet Scans
+      condition: true    # Always run action
+      actions:
+
+
+        - print_event:
+            pretty: true
+
+
+        - run_playbook:
+            name: nofusscomputing.phpipam_scan_agent.server
+            extra_vars:
+              inbound_data: "{{ event.payload }}"
