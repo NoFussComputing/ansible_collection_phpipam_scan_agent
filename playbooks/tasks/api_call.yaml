@@ -26,34 +26,34 @@
     - name: check Cache Files
       ansible.builtin.stat:
         path: "{{ cache_filepath }}"
-      register: cache_files
+      register: cached_file
 
 
     - name: Expire
       ansible.builtin.set_fact:
-        expired: "{{ ((epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) >= ((cache_files.stat.mtime | int) + nfc_c_cache_expire_time | int) | int ) | bool }}"
-      when: cache_files.stat.exists
+        expired: "{{ ((epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) >= ((cached_file.stat.mtime | int) + nfc_c_cache_expire_time | int) | int ) | bool }}"
+      when: cached_file.stat.exists
 
 
     - name: TRACE - Cached file
       ansible.builtin.debug:
         msg:
-          - "exists: {{ cache_files.stat.exists | default('') }}"
-          - "mtime:  {{ cache_files.stat.mtime | default(0) | int }}"
-          - "expire: {{ (cache_files.stat.mtime | int) + nfc_c_cache_expire_time | int }}" 
+          - "exists: {{ cached_file.stat.exists | default('') }}"
+          - "mtime:  {{ cached_file.stat.mtime | default(0) | int }}"
+          - "expire: {{ (cached_file.stat.mtime | int) + nfc_c_cache_expire_time | int }}" 
           - "epoch:  {{ (epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) | int }} [{{ nfc_c_cache_expire_time }}]"
           - "epoch: {{ epoch }}"
           - "expired: {{ expired }}"
-      when: cache_files.stat.exists
+      when: cached_file.stat.exists
 
     - name: Expire Cache
       ansible.builtin.file:
-        path: "{{ cache_files.stat.path }}"
+        path: "{{ cached_file.stat.path }}"
         state: absent
       when: >
         expired
           and
-        cache_files.stat.exists
+        cached_file.stat.exists
 
 
     - name: >
@@ -80,10 +80,10 @@
         (
           expired
             and
-          cache_files.stat.exists
+          cached_file.stat.exists
         )
           or
-        not cache_files.stat.exists
+        not cached_file.stat.exists
 
 
     - name: Create Cache DIR
@@ -104,9 +104,9 @@
         (
           expired
             and
-          cache_files.stat.exists
+          cached_file.stat.exists
         )
           or
-        not cache_files.stat.exists
+        not cached_file.stat.exists
           and
         api_call.status | default(0) | int != 404
