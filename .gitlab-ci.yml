@@ -29,6 +29,11 @@ include:
       - template/mkdocs-documentation.gitlab-ci.yaml
       # ToDo: update gitlabCI jobs for collections workflow
       - git_push_mirror/.gitlab-ci.yml
+      - automation/.gitlab-ci-ansible.yaml
+
+
+Update Git Submodules:
+  extends: .ansible_playbook_git_submodule
 
 
 Github (Push --mirror):
