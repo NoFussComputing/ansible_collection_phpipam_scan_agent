@@ -55,7 +55,7 @@
 
             {% if scan_address.ipaddress.hostname | default('') != '' %}
 
-              '{{ scan_address.ipaddress.hostname }}'
+              '{{ scan_address.ipaddress.hostname }}',
 
             {% endif %}
 
