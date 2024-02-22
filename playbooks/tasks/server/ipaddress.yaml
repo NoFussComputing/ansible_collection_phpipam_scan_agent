@@ -1,7 +1,7 @@
 ---
 
 
-- name: Update IP Address' found
+- name: "Update IP Address' found - {{ scan_address.ipaddress.ip }}"
   community.mysql.mysql_query:
     login_host: "{{ nfc_c_mysql_host }}"
     login_port: "{{ nfc_c_mysql_port | default(3306) | int }}"
