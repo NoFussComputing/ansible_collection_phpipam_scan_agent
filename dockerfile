@@ -94,7 +94,7 @@ RUN mkdir -p /tmp/collection; \
   if [ "$COLLECTION_PACKAGE" != "dev" ]; then \
     echo "specified"; \
     ansible-galaxy collection install --force-with-deps --pre \
-      $COLLECTION; \
+      $COLLECTION_PACKAGE; \
   elif [ "$COLLECTION_PACKAGE" == "dev" ]; then \
     git clone \
       --depth=1 \

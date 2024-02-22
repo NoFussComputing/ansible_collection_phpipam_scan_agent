@@ -1,7 +1,7 @@
 ---
 
 
-- name: Update IP Address' found
+- name: "Update IP Address' found - {{ scan_address.ipaddress.ip }}"
   community.mysql.mysql_query:
     login_host: "{{ nfc_c_mysql_host }}"
     login_port: "{{ nfc_c_mysql_port | default(3306) | int }}"
@@ -17,6 +17,12 @@
         UPDATE ipaddresses
         SET
           lastSeen = '{{ scan_address.ipaddress.lastSeen }}'
+
+            {% if scan_address.ipaddress.hostname | default('') != '' %},
+
+            hostname = '{{ scan_address.ipaddress.hostname }}'
+
+            {% endif %}
 
           {% if scan_address.ipaddress.mac | default('') != '' %},
 
@@ -36,6 +42,7 @@
             subnetId,
             ip_addr,
             description,
+            {% if scan_address.ipaddress.hostname | default('') != '' %}hostname,{% endif %}
             {% if scan_address.ipaddress.mac | default('') != '' %}mac,{% endif %}
             note,
             lastSeen
@@ -45,6 +52,12 @@
             {{ scan_address.ipaddress.subnetId | int }},
             '{{ scan_address.ipaddress.ip | ip2ipam }}',
             '-- autodiscovered --',
+
+            {% if scan_address.ipaddress.hostname | default('') != '' %}
+
+              '{{ scan_address.ipaddress.hostname }}',
+
+            {% endif %}
 
             {% if scan_address.ipaddress.mac | default('') != '' %}
 
