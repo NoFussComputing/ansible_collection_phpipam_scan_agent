@@ -37,11 +37,6 @@ The variables described below, if optional the value specified here is the defau
 
 ``` yaml
 
-client_token: ""                       # Mandatory, String client api token to connect to phpIPAM API [SCANNER_TOKEN]
-client_name: ""                        # Mandatory, String. The scanner name as set in phpIPAM interface [SCANNER_NAME]
-scanagent_code: ""                     # Mandatory, String. Scan Agent Code as set in phpIPAM interface [SCANNER_CODE]
-
-
 nfc_c_http_port: 5000                  # Optional, Integer. http port to connect to the server. [HTTP_PORT]
 nfc_c_http_server: http://127.0.0.1    # Optional, Integer. url with protocol of the Scan Server to connect to. [HTTP_URL]
 
@@ -56,21 +51,6 @@ nfc_c_epoch_time_offset: 0             # optional, int. Value in seconds to offs
 
 !!! tip
     You can specify environmental variable `ANSIBLE_LOG_PATH=/var/log/ansible.log`, which will tell the scanner component to log to a file at path `/var/log/ansible.log`
-
-
-#### phpIPAM Interface variable Mapping
-
-These images are of the phpIPAM interface that show in green text the variable name that would be set as detailed above.
-
-![phpIPAM API](images/phpipam_api.png)
-
-phpIPAM API Settings
-
-----
-
-![phpIPAM Scan Agent](images/phpipam_scan_agent_details.png)
-
-phpIPAM Scan Agent Settings
 
 
 ## Workflow
