@@ -15,15 +15,27 @@
     api_query_string: "filter_by=scanAgent&filter_value={{ nfc_c_scan_agent_id }}"
 
 
-- name: Update Subnets List
-  ansible.builtin.set_fact:
-    nfc_c_scan_agent_subnets: "{{ nfc_c_scan_agent_subnets + [{
-        'id': network.id,
-        'address': network.subnet + '/' + network.mask
-      }] }}"
-  loop: "{{ data | default ([]) }}"
-  loop_control:
-    loop_var: network
-  vars:
-    data: "{{ lookup('file', cache_filepath) }}"
-  when: network.discoverSubnet | int == 1
+- name: Try/Catch
+  block:
+
+
+    - name: Update Subnets List
+      ansible.builtin.set_fact:
+        nfc_c_scan_agent_subnets: "{{ nfc_c_scan_agent_subnets + [{
+            'id': network.id,
+            'address': network.subnet + '/' + network.mask
+          }] }}"
+      loop: "{{ lookup('file', cache_filepath) | default ([]) }}"
+      loop_control:
+        loop_var: network
+      when: >
+        network.discoverSubnet | int == 1
+
+  rescue:
+
+    - name: Confirm 'Subnets List' Error is Expected
+      ansible.builtin.assert:
+        that:
+          - not cached_file.stat.exists
+        success_msg: "OK. Success. The error occured as there is no cache file. This normally means there are no subnets assigned to the agent."
+        fail_msg: "ERROR. Something went wrong, Cache file exists."

@@ -84,7 +84,7 @@
     - name: Scan Subnet
       ansible.builtin.include_tasks:
         file: tasks/scan_subnet.yaml
-      loop: "{{ nfc_c_scan_agent_subnets }}"
+      loop: "{{ nfc_c_scan_agent_subnets | default([]) }}"
       loop_control:
         loop_var: subnet
 
