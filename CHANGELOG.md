@@ -1,3 +1,15 @@
+## 0.2.0-a2 (2024-02-23)
+
+### Feat
+
+- **server**: update subnet discovery date/time
+- **server**: move config of variables to vars file
+- **agent**: move config of variables to vars file
+
+### Refactor
+
+- **server**: don't process scan results in parallel
+
 ## 0.2.0-a1 (2024-02-22)
 
 ### Feat
