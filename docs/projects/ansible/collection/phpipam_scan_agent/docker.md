@@ -23,12 +23,9 @@ docker run \
     -e "MYSQL_HOST=<your value here>" \
     -e "MYSQL_USER=<your value here>" \
     -e "MYSQL_PASSWORD=<your value here>" \
-    -e "SCANNER_TOKEN=<your value here>" \
-    -e "SCANNER_NAME=<your value here>" \
-    -e "SCANNER_CODE=<your value here>" \
     -p "5000:5000" \
     --name scan-agent \
-    scan-agent:latest;
+    nofusscomputing/phpipam-scan-agent:latest;
 
 ```
 
@@ -44,7 +41,9 @@ During the build of the container environmental variable `ANSIBLE_FORCE_COLOR='t
 
 ### Volumes
 
-There are no volumes for this container.
+You will need to configure the scan components:
+
+- scanner config file at path `/etc/phpipam/scan_agent.yaml`, see [scanner docs](scanner.md#variables) for details.
 
 If you wish to customize the cronjob for the scan component within the container, mount a new cron file to path `/etc/cron.d/scanner`. The default cron file is as follows:
 

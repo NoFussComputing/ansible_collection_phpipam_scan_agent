@@ -3,15 +3,6 @@
   block:
 
 
-    - name: Mandatory Variables set
-      ansible.builtin.assert:
-        that:
-          - api_client_name is defined
-          - api_path is defined
-          - api_token is defined
-          - api_url is defined
-
-
     - name: API Facts
       ansible.builtin.set_fact:
         epoch: "{{ ((('%Y-%m-%d %H:%M:%S' | strftime) | string | to_datetime) - ('1970-01-01 00:00:00' | to_datetime)).total_seconds() | int }}"
@@ -31,7 +22,8 @@
 
     - name: Expire
       ansible.builtin.set_fact:
-        expired: "{{ ((epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) >= ((cached_file.stat.mtime | int) + nfc_c_cache_expire_time | int) | int ) | bool }}"
+        expired: "{{ ((epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) >= ((cached_file.stat.mtime | int) +
+          (nofusscomputing_phpipam_scan_agent.cache_expire_time | default(nfc_c_cache_expire_time)) | int) | int ) | bool }}"
       when: cached_file.stat.exists
 
 
@@ -40,8 +32,9 @@
         msg:
           - "exists: {{ cached_file.stat.exists | default('') }}"
           - "mtime:  {{ cached_file.stat.mtime | default(0) | int }}"
-          - "expire: {{ (cached_file.stat.mtime | int) + nfc_c_cache_expire_time | int }}" 
-          - "epoch:  {{ (epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) | int }} [{{ nfc_c_cache_expire_time }}]"
+          - "expire: {{ (cached_file.stat.mtime | int) + (nofusscomputing_phpipam_scan_agent.cache_expire_time | default(nfc_c_cache_expire_time)) | int }}"
+          - "epoch:  {{ (epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) | int }} [{{
+            (nofusscomputing_phpipam_scan_agent.cache_expire_time | default(nfc_c_cache_expire_time)) }}]"
           - "epoch: {{ epoch }}"
           - "expired: {{ expired }}"
       when: cached_file.stat.exists
@@ -62,7 +55,7 @@
           {%- endif %}
       ansible.builtin.uri:
         url: >-
-          {{ api_url }}/api/{{ api_client_name }}/{{ api_path }}
+          {{ nofusscomputing_phpipam_scan_agent.api_url }}/api/{{ api_client_name }}/{{ api_path }}
           {%- if api_query_string is defined -%}
             /?{{ api_query_string }}
           {%- endif %}
