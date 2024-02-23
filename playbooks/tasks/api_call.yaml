@@ -31,7 +31,8 @@
 
     - name: Expire
       ansible.builtin.set_fact:
-        expired: "{{ ((epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) >= ((cached_file.stat.mtime | int) + nfc_c_cache_expire_time | int) | int ) | bool }}"
+        expired: "{{ ((epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) >= ((cached_file.stat.mtime | int) +
+          (nofusscomputing_phpipam_scan_agent.cache_expire_time | default(nfc_c_cache_expire_time)) | int) | int ) | bool }}"
       when: cached_file.stat.exists
 
 
@@ -40,8 +41,9 @@
         msg:
           - "exists: {{ cached_file.stat.exists | default('') }}"
           - "mtime:  {{ cached_file.stat.mtime | default(0) | int }}"
-          - "expire: {{ (cached_file.stat.mtime | int) + nfc_c_cache_expire_time | int }}" 
-          - "epoch:  {{ (epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) | int }} [{{ nfc_c_cache_expire_time }}]"
+          - "expire: {{ (cached_file.stat.mtime | int) + (nofusscomputing_phpipam_scan_agent.cache_expire_time | default(nfc_c_cache_expire_time)) | int }}"
+          - "epoch:  {{ (epoch | int + (nfc_c_epoch_time_offset | default(0)) | int) | int }} [{{
+            (nofusscomputing_phpipam_scan_agent.cache_expire_time | default(nfc_c_cache_expire_time)) }}]"
           - "epoch: {{ epoch }}"
           - "expired: {{ expired }}"
       when: cached_file.stat.exists

@@ -5,64 +5,48 @@
 
   tasks:
 
+    - name: Check for Existance of config file
+      ansible.builtin.stat:
+        path: /etc/phpipam/scan_agent.yaml
+      register: config_file_check
 
-    - name: Fetch Required Environmental Variables
-      ansible.builtin.set_fact:
-        client_token: "{{ lookup('ansible.builtin.env', 'SCANNER_TOKEN') | default('') }}"
-        client_name: "{{ lookup('ansible.builtin.env', 'SCANNER_NAME') }}"
-        scanagent_code: "{{ lookup('ansible.builtin.env', 'SCANNER_CODE') | default('') }}"
-        api_url: "{{ lookup('ansible.builtin.env', 'API_URL') | default('') }}"
-      no_log: true
+
+    - name: Load Config File
+      ansible.builtin.include_vars:
+        file: /etc/phpipam/scanagent.yaml
       when: >
-        client_token is not defined
-          and
-        client_name is not defined
-          and
-        scanagent_code is not defined
-          and
-        api_url is not defined
-
-
-    - name: Fetch Required Environmental Variable - HTTP_URL
-      ansible.builtin.set_fact:
-        nfc_c_http_server: "{{ lookup('ansible.builtin.env', 'HTTP_URL') | default('') }}"
-      when: >
-        lookup('ansible.builtin.env', 'HTTP_URL') | default('') != ''
-
-
-    - name: Fetch Required Environmental Variable - HTTP_PORT
-      ansible.builtin.set_fact:
-        nfc_c_http_port: "{{ lookup('ansible.builtin.env', 'HTTP_PORT') | default('') }}"
-      when: >
-        lookup('ansible.builtin.env', 'HTTP_PORT') | default('') != ''
+        config_file_check.stat.exists
 
 
     - name: Confirm 'api_url' is Set
       ansible.builtin.assert:
         that:
-          - api_url is defined
-          - api_url != ''
+          - nofusscomputing_phpipam_scan_agent.api_url is defined
+          - nofusscomputing_phpipam_scan_agent.api_url != ''
         msg: "missing Required Variables"
 
 
     - name: Confirm 'client_token' is Set
       ansible.builtin.assert:
         that:
-          - client_token is defined
+          - nofusscomputing_phpipam_scan_agent.client_token is defined
+          - nofusscomputing_phpipam_scan_agent.client_token != ''
         msg: "missing Required Variables"
 
 
     - name: Confirm 'client_name' is Set
       ansible.builtin.assert:
         that:
-          - client_name is defined
+          - nofusscomputing_phpipam_scan_agent.client_name is defined
+          - nofusscomputing_phpipam_scan_agent.client_name != ''
         msg: "missing Required Variables"
 
 
     - name: Confirm 'scanagent_code' is Set
       ansible.builtin.assert:
         that:
-          - scanagent_code is defined
+          - nofusscomputing_phpipam_scan_agent.scanagent_code is defined
+          - nofusscomputing_phpipam_scan_agent.scanagent_code !=
         msg: "missing Required Variables"
 
 
@@ -89,12 +73,12 @@
         loop_var: subnet
 
 
-  vars: # ToDo: remove the below t4est vars
+  vars:
+    nfc_c_cache_expire_time: 1800
     nfc_c_http_port: 5000
     nfc_c_http_server: http://127.0.0.1
+    nfc_c_path_cache: "{{ playbook_dir }}/../cache"
 
     api_address: addresses
     api_subnets: subnets
     api_scanagents: tools/scanagents
-    nfc_c_path_cache: "{{ playbook_dir }}/../cache"
-    nfc_c_cache_expire_time: 1800

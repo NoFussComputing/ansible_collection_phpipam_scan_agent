@@ -9,8 +9,8 @@
   ansible.builtin.include_tasks:
     file: tasks/api_call.yaml
   vars:
-    api_client_name: "{{ client_name }}"
-    api_token: "{{ client_token }}"
+    api_client_name: "{{ nofusscomputing_phpipam_scan_agent.client_name }}"
+    api_token: "{{ nofusscomputing_phpipam_scan_agent.client_token }}"
     api_path: "{{ api_subnets }}"
     api_query_string: "filter_by=scanAgent&filter_value={{ nfc_c_scan_agent_id }}"
 
