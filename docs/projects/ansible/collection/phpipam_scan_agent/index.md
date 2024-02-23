@@ -68,6 +68,11 @@ When this setting is enabled, the scanner will scan the entire subnet that has b
     the work in [Hosts check](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/3), will adjust this behaviour to only add hosts that dont exist.
 
 
+ - Location `Subnet -> Discover new hosts [Last discovery time]` 
+
+This is displayed within the subnet interface next to the `Discover new hosts` field. Whenever a scan report is received by the server this filed is updated to reflect the last scan time.
+
+
 ## Development Notes
 
 Contributions to this project are welcome. Below you will find some useful commands for use during development.
@@ -80,13 +85,8 @@ docker build . --tag scan-agent:dev --build-arg  COLLECTION_BRANCH=<your feature
 # Launch your build container
 docker run \
     -d \
-    -e "API_URL=<your value here>" \
-    -e "MYSQL_HOST=<your value here>" \
-    -e "MYSQL_USER=<your value here>" \
-    -e "MYSQL_PASSWORD=<your value here>" \
-    -e "SCANNER_TOKEN=<your value here>" \
-    -e "SCANNER_NAME=<your value here>" \
-    -e "SCANNER_CODE=<your value here>" \
+    -v "./scan_agent.yaml:/etc/phpipam/scan_agent.yaml" \
+    -v "./scan_server.yaml:/etc/phpipam/scan_server.yaml" \
     -e "ANSIBLE_LOG_PATH=/var/log/ansible.log" \
     -p "5000:5000" \
     --name scan-agent \

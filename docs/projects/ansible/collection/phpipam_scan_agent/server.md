@@ -56,8 +56,3 @@ The Server componet has the following workflow:
     - _if no results found, no further processing occurs_
 
 1. Update the phpIPAM MariaDB/MySQL database directly
-
-
-## phpIPAM Features
-
-- **Last discovery time** This is displayed within the subnet interface next to the `Discover new hosts` fieled. Whenever a scan report is received by the server this filed is updated to reflect the last scan time.

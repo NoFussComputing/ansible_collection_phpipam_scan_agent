@@ -20,6 +20,8 @@ Launching the docker container can be done with
 docker run \
     -d \
     -p "5000:5000" \
+    -v "./scan_agent.yaml:/etc/phpipam/scan_agent.yaml" \
+    -v "./scan_server.yaml:/etc/phpipam/scan_server.yaml" \
     --name scan-agent \
     nofusscomputing/phpipam-scan-agent:latest;
 
