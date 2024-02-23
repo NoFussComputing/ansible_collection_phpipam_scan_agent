@@ -5,12 +5,14 @@
     cmd: nmap -sn "{{ subnet.address }}" -oX -
   become: true
   register: nmap_scan
+
+
 - name: Get subnets Address'
   ansible.builtin.include_tasks:
     file: tasks/api_call.yaml
   vars:
-    api_client_name: "{{ client_name }}"
-    api_token: "{{ client_token }}"
+    api_client_name: "{{ nofusscomputing_phpipam_scan_agent.client_name }}"
+    api_token: "{{ nofusscomputing_phpipam_scan_agent.client_token }}"
     api_path: "{{ api_address }}"
     api_query_string: "filter_by=subnetId&filter_value={{ subnet.id }}"
 
@@ -65,11 +67,13 @@
 
 - name: Upload Scan Results - {{ subnet.address }}
   ansible.builtin.uri:
-    url: "{{ nfc_c_http_server }}:{{ nfc_c_http_port }}/"
+    url: "{{
+      nofusscomputing_phpipam_scan_agent.http_server | default(nfc_c_http_server)
+      }}:{{ nofusscomputing_phpipam_scan_agent.http_port | default(nfc_c_http_port) }}/"
     method: POST
     body_format: json
     body: {
-      "code": "{{ scanagent_code }}",
+      "code": "{{ nofusscomputing_phpipam_scan_agent.scanagent_code }}",
       "scan": {
         "subnet": "{{ subnet.address }}",
         "results": "{{ subnet_scan_results }}"

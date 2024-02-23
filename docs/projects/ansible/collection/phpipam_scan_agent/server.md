@@ -25,10 +25,6 @@ ansible-rulebook -r nofusscomputing.phpipam_scan_agent.agent_receive
 The variables described below, if optional the value specified here is the default value. All variables that are used by the server component are environmental variables that must be set before execution. Ansbible variable name is enclused in `[]`
 
 ``` bash
-# phpIPAM Scan Agent Settings
-SCANNER_TOKEN=         # Mandatory, String client api token to connect to phpIPAM API [client_token]
-SCANNER_NAME=          # Mandatory, String. The scanner name as set in phpIPAM interface [client_name]
-SCANNER_CODE=          # Mandatory, String. Scan Agent Code as set in phpIPAM interface [scanagent_code]
 
 # phpIPAM MariaDB/MySQL Variables
 MYSQL_HOST=            # Mandatory, String. IP/DNS of host to connect. [nfc_c_mysql_host]
@@ -41,21 +37,6 @@ MYSQL_PASSWORD=        # Mandatory, String. Password for the user to connect wit
 HTTP_PORT=5000         # Optional, Integer. The port for the Server component to listen for connections.
 
 ```
-
-
-#### phpIPAM Interface variable Mapping
-
-These images are of the phpIPAM interface that show in green text the variable name that would be set as detailed above.
-
-![phpIPAM API](images/phpipam_api.png)
-
-phpIPAM API Settings
-
-----
-
-![phpIPAM Scan Agent](images/phpipam_scan_agent_details.png)
-
-phpIPAM Scan Agent Settings
 
 
 # Workflow
