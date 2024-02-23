@@ -26,6 +26,24 @@
     loop_var: ipaddress
 
 
+- name: Update Subnet Discovery Time
+  community.mysql.mysql_query:
+    login_host: "{{ nofusscomputing_phpipam_scan_server.mysql_host }}"
+    login_port: "{{ nofusscomputing_phpipam_scan_server.mysql_port | default(3306) | int }}"
+    login_user: "{{ nofusscomputing_phpipam_scan_server.mysql_user }}"
+    login_password: "{{ nofusscomputing_phpipam_scan_server.mysql_password }}"
+
+    login_db: 'phpipam'
+    query: |-
+      UPDATE
+        subnets
+      SET
+       lastDiscovery = '{{ scan_result.scan.subnet.results[0].lastSeen }}'
+      WHERE
+        subnet = '{{ inbound_data.scan.subnet | ip2ipam }}'
+    single_transaction: true
+
+
 - name: Update IP Addresses
   ansible.builtin.include_tasks:
     file: tasks/server/ipaddress.yaml
