@@ -22,24 +22,26 @@ ansible-rulebook -r nofusscomputing.phpipam_scan_agent.agent_receive
 
 ### Variables
 
-The variables described below, if optional the value specified here is the default value. All variables that are used by the server component are environmental variables that must be set before execution.
+The variables described below, if optional the value specified here is the default value. The variables are to be set in a variables file at path `/etc/phpipam/scan_server.yaml`
 
-``` bash
+``` yaml
 
-# phpIPAM MariaDB/MySQL Variables
-MYSQL_HOST=            # Mandatory, String. IP/DNS of host to connect.
-MYSQL_PORT=3306        # Optional, Integer. port to use for connection.
-MYSQL_USER=            # Mandatory, String. User to authenticate with.
-MYSQL_PASSWORD=        # Mandatory, String. Password for the user to connect with.
+nofusscomputing_phpipam_scan_server:
+
+  # phpIPAM MariaDB/MySQL Variables
+  mysql_host:         # Mandatory, String. IP/DNS of host to connect. [nfc_c_]
+  mysql_port: 3306    # Optional, Integer. port to use for connection. [nfc_c_]
+  mysql_user:         # Mandatory, String. User to authenticate with. [nfc_c_]
+  mysql_password:     # Mandatory, String. Password for the user to connect with. [nfc_c_]
 
 
-# Server Component Variables
-HTTP_PORT=5000         # Optional, Integer. The port for the Server component to listen for connections.
+  # Server Component Variables
+  http_port: 5000     # Optional, Integer. The port for the Server component to listen for connections.
 
 ```
 
 
-# Workflow
+## Workflow
 
 The Server componet has the following workflow:
 

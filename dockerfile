@@ -94,7 +94,7 @@ RUN mkdir -p /tmp/collection; \
   if [ "$COLLECTION_PACKAGE" != "dev" ]; then \
     echo "specified"; \
     ansible-galaxy collection install --force-with-deps --pre \
-      $COLLECTION; \
+      $COLLECTION_PACKAGE; \
   elif [ "$COLLECTION_PACKAGE" == "dev" ]; then \
     git clone \
       --depth=1 \
@@ -106,7 +106,9 @@ RUN mkdir -p /tmp/collection; \
     /tmp/collection/.; \
     rm -Rf /tmp/collection; \
   fi; \
-  chmod +x /etc/cron.d/*;
+  chmod +x /etc/cron.d/*; \
+  chown root:root -R /etc/phpipam; \
+  chmod 740 -R /etc/phpipam;
 
 
 WORKDIR /root

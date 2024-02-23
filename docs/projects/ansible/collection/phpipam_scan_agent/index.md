@@ -6,14 +6,16 @@ template: project.html
 about: https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent
 ---
 
-<span align="center">
+<span style="text-align: center;">
 
 ![Project Status - Active](https://img.shields.io/badge/Project%20Status-Active-green?logo=gitlab&style=plastic)
 
-[![Latest Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphp_scan_agent%2F&query=%24.highest_version.version&style=plastic&logo=ansible&logoColor=white&label=Latest%20Release&labelColor=black&color=cyan)](https://galaxy.ansible.com/ui/repo/published/nofusscomputing/ci_test_collection/)
-![Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphp_scan_agent%2F&query=%24.download_count&style=plastic&logo=ansible&logoColor=white&label=Downloads&labelColor=black&color=cyan)
 
-[![Docker Image Version](https://img.shields.io/docker/v/nofusscomputing/phpipam-scan-agent?sort=semver&style=plastic&logo=docker&logoColor=0db7ed&color=0db7ed&label=Latest%20Release)](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent)
+![branch release version](https://img.shields.io/badge/dynamic/yaml?color=ff782e&logo=gitlab&style=plastic&label=Stable%20Release&query=%24.commitizen.version&url=https%3A//gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent%2F-%2Fraw%2Fmaster%2F.cz.yaml) 
+![branch release version](https://img.shields.io/badge/dynamic/yaml?color=ff782e&logo=gitlab&style=plastic&label=Dev%20Release&query=%24.commitizen.version&url=https%3A//gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent%2F-%2Fraw%2Fdevelopment%2F.cz.yaml)
+
+
+[![Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv3%2Fplugin%2Fansible%2Fcontent%2Fpublished%2Fcollections%2Findex%2Fnofusscomputing%2Fphpipam_scan_agent%2F&query=%24.download_count&style=plastic&logo=ansible&logoColor=white&label=Galaxy%20Downloads&labelColor=black&color=cyan)](https://galaxy.ansible.com/ui/repo/published/nofusscomputing/phpipam_scan_agent/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/nofusscomputing/phpipam-scan-agent?style=plastic&logo=docker&logoColor=0db7ed&color=0db7ed)](https://hub.docker.com/r/nofusscomputing/phpipam-scan-agent)
 
 
@@ -68,6 +70,11 @@ When this setting is enabled, the scanner will scan the entire subnet that has b
     the work in [Hosts check](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/3), will adjust this behaviour to only add hosts that dont exist.
 
 
+ - Location `Subnet -> Discover new hosts [Last discovery time]` 
+
+This is displayed within the subnet interface next to the `Discover new hosts` field. Whenever a scan report is received by the server this filed is updated to reflect the last scan time.
+
+
 ## Development Notes
 
 Contributions to this project are welcome. Below you will find some useful commands for use during development.
@@ -80,13 +87,8 @@ docker build . --tag scan-agent:dev --build-arg  COLLECTION_BRANCH=<your feature
 # Launch your build container
 docker run \
     -d \
-    -e "API_URL=<your value here>" \
-    -e "MYSQL_HOST=<your value here>" \
-    -e "MYSQL_USER=<your value here>" \
-    -e "MYSQL_PASSWORD=<your value here>" \
-    -e "SCANNER_TOKEN=<your value here>" \
-    -e "SCANNER_NAME=<your value here>" \
-    -e "SCANNER_CODE=<your value here>" \
+    -v "./scan_agent.yaml:/etc/phpipam/scan_agent.yaml" \
+    -v "./scan_server.yaml:/etc/phpipam/scan_server.yaml" \
     -e "ANSIBLE_LOG_PATH=/var/log/ansible.log" \
     -p "5000:5000" \
     --name scan-agent \

@@ -1,12 +1,11 @@
 - name: Agent Webhook
   hosts: all
-  execution_strategy: parallel
 
   sources:
     - name: Webhook
       ansible.eda.webhook:
         host: 0.0.0.0
-        port: "{{ HTTP_PORT }}"
+        port: "{{ nofusscomputing_phpipam_scan_server.http_port | default(5000) | int }}"
 
   rules:
 

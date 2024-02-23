@@ -11,15 +11,11 @@ The Scan Agent Scanner component is intended to scan networks that are assigned 
 
 ## Usage
 
-After installing the collection, running the agent is as simple as running the following command:
+After installing the collection and configuring. Running the agent is as simple as running the following command:
 
 ``` bash
 
-ansible-playbook nofusscomputing.phpipam_scan_agent.agent \
-  --extra-vars "api_url=<your value here>" \
-  --extra-vars "client_token=<your value here>" \
-  --extra-vars "client_name=<your value here>" \
-  --extra-vars "scanagent_code=<your value here>"
+ansible-playbook nofusscomputing.phpipam_scan_agent.agent
 
 ```
 
@@ -33,24 +29,24 @@ The scanner component requires API access to phpIPAM. THe API user that is used,
 
 ### Variables
 
-The variables described below, if optional the value specified here is the default value. Any variable that can be set via environmental variables have the variable name enclosed in `[]`
+Variables for the scanner are set in a variables file at path `/etc/phpipam/scan_agent.yaml`. The variables described below, if optional the value specified here is the default value.
 
 ``` yaml
+nofusscomputing_phpipam_scan_agent:
 
-client_token: ""                       # Mandatory, String client api token to connect to phpIPAM API [SCANNER_TOKEN]
-client_name: ""                        # Mandatory, String. The scanner name as set in phpIPAM interface [SCANNER_NAME]
-scanagent_code: ""                     # Mandatory, String. Scan Agent Code as set in phpIPAM interface [SCANNER_CODE]
+  api_url:                           # Mandatory, String. url with protocol of the phpIPAM API to connect to.
 
+  http_port: 5000                    # Optional, Integer. http port to connect to the server.
+  http_server: http://127.0.0.1      # Optional, Integer. url with protocol of the Scan Server to connect to.
 
-nfc_c_http_port: 5000                  # Optional, Integer. http port to connect to the server. [HTTP_PORT]
-nfc_c_http_server: http://127.0.0.1    # Optional, Integer. url with protocol of the Scan Server to connect to. [HTTP_URL]
+  cache_expire_time: 1800            # Optional, Integer. Time in seconds to expire the phpIPAM cache.
+  epoch_time_offset: 0               # optional, int. Value in seconds to offset the time
 
+# phpIPAM Scan Agent Settings
+  client_token:                      # Mandatory, String client api token to connect to phpIPAM API [client_token]
+  client_name:                       # Mandatory, String. The scanner name as set in phpIPAM interface [client_name]
+  scanagent_code:                    # Mandatory, String. Scan Agent Code as set in phpIPAM interface [scanagent_code]
 
-api_url: http://127.0.0.1              # Optional, String. url with protocol of the phpIPAM API to connect to. [API_URL]
-
-
-nfc_c_cache_expire_time: 1800          # Optional, Integer. Time in seconds to expire the phpIPAM cache.
-nfc_c_epoch_time_offset: 0             # optional, int. Value in seconds to offset the time
 
 ```
 
@@ -63,13 +59,11 @@ nfc_c_epoch_time_offset: 0             # optional, int. Value in seconds to offs
 These images are of the phpIPAM interface that show in green text the variable name that would be set as detailed above.
 
 ![phpIPAM API](images/phpipam_api.png)
-
 phpIPAM API Settings
 
 ----
 
 ![phpIPAM Scan Agent](images/phpipam_scan_agent_details.png)
-
 phpIPAM Scan Agent Settings
 
 
