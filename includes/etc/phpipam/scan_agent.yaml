@@ -1,0 +1,18 @@
+---
+
+nofusscomputing_phpipam_scan_agent:
+
+  # api_url: http://127.0.0.1          # Mandatory, String. url with protocol of the phpIPAM API to connect to.
+
+  # http_port: 5000                    # Optional, Integer. http port to connect to the server.
+  # http_server: http://127.0.0.1      # Optional, Integer. url with protocol of the Scan Server to connect to.
+
+
+  # cache_expire_time: 1800            # Optional, Integer. Time in seconds to expire the phpIPAM cache.
+  # epoch_time_offset: 0               # optional, int. Value in seconds to offset the time
+
+
+# phpIPAM Scan Agent Settings
+  client_token:                      # Mandatory, String client api token to connect to phpIPAM API [client_token]
+  client_name:                       # Mandatory, String. The scanner name as set in phpIPAM interface [client_name]
+  scanagent_code:                    # Mandatory, String. Scan Agent Code as set in phpIPAM interface [scanagent_code]

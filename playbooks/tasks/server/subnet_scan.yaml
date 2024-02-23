@@ -3,10 +3,10 @@
 
 - name: Match Scan Addresses to DB Details
   community.mysql.mysql_query:
-    login_host: "{{ nfc_c_mysql_host }}"
-    login_port: "{{ nfc_c_mysql_port | default(3306) | int }}"
-    login_user: "{{ nfc_c_mysql_user }}"
-    login_password: "{{ nfc_c_mysql_password }}"
+    login_host: "{{ nofusscomputing_phpipam_scan_server.mysql_host }}"
+    login_port: "{{ nofusscomputing_phpipam_scan_server.mysql_port | default(3306) | int }}"
+    login_user: "{{ nofusscomputing_phpipam_scan_server.mysql_user }}"
+    login_password: "{{ nofusscomputing_phpipam_scan_server.mysql_password }}"
 
     login_db: 'phpipam'
     query: |-
@@ -24,6 +24,24 @@
   loop: "{{ scan_result }}"
   loop_control:
     loop_var: ipaddress
+
+
+- name: Update Subnet Discovery Time
+  community.mysql.mysql_query:
+    login_host: "{{ nofusscomputing_phpipam_scan_server.mysql_host }}"
+    login_port: "{{ nofusscomputing_phpipam_scan_server.mysql_port | default(3306) | int }}"
+    login_user: "{{ nofusscomputing_phpipam_scan_server.mysql_user }}"
+    login_password: "{{ nofusscomputing_phpipam_scan_server.mysql_password }}"
+
+    login_db: 'phpipam'
+    query: |-
+      UPDATE
+        subnets
+      SET
+       lastDiscovery = '{{ inbound_data.scan.results[0].lastSeen }}'
+      WHERE
+        subnet = '{{ (inbound_data.scan.subnet | split('/'))[0] | ip2ipam }}'
+    single_transaction: true
 
 
 - name: Update IP Addresses

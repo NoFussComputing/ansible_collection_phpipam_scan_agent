@@ -21,6 +21,9 @@ variables:
 
 
 include:
+
+  - local: .gitlab/unit-test.gitlab-ci.yml
+
   - project: nofusscomputing/projects/gitlab-ci
     ref: development
     file:
@@ -146,9 +149,9 @@ Github (Push --mirror):
 
       docker buildx imagetools inspect $DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG;
 
-      DOCKER_MULTI_ARCH_IMAGES=$(docker buildx imagetools inspect "$DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG" --format "{{ range .Manifest.Manifests }}$DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG@{{ println .Digest }} {{end}}")
+      #DOCKER_MULTI_ARCH_IMAGES=$(docker buildx imagetools inspect "$DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG" --format "{{ range .Manifest.Manifests }}$DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG@{{ println .Digest }} {{end}}")
 
-      echo "[DEBUG] DOCKER_MULTI_ARCH_IMAGES=$DOCKER_MULTI_ARCH_IMAGES";
+      # echo "[DEBUG] DOCKER_MULTI_ARCH_IMAGES=$DOCKER_MULTI_ARCH_IMAGES";
 
       # done;
 
@@ -177,23 +180,23 @@ Github (Push --mirror):
       # fi;
 
 
-      echo "[DEBUG] DOCKER_IMAGE_PUBLISH_NAME=$DOCKER_IMAGE_PUBLISH_NAME";
+      # echo "[DEBUG] DOCKER_IMAGE_PUBLISH_NAME=$DOCKER_IMAGE_PUBLISH_NAME";
 
       # echo "[DEBUG] final: DOCKER_HUB_TAG=$DOCKER_HUB_TAG";
 
-      echo "[DEBUG] DOCKER_MULTI_ARCH_IMAGES=$DOCKER_MULTI_ARCH_IMAGES";
-      
-      
+      # echo "[DEBUG] DOCKER_MULTI_ARCH_IMAGES=$DOCKER_MULTI_ARCH_IMAGES";
+
+
 
       if [ "${CI_COMMIT_TAG}" ]; then
 
-        docker buildx imagetools create $DOCKER_MULTI_ARCH_IMAGES --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:$CI_COMMIT_TAG;
+        docker buildx imagetools create $DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:$CI_COMMIT_TAG;
 
-        docker buildx imagetools create $DOCKER_MULTI_ARCH_IMAGES --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:latest;
+        docker buildx imagetools create $DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:latest;
 
       else
 
-        docker buildx imagetools create $DOCKER_MULTI_ARCH_IMAGES --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:dev;
+        docker buildx imagetools create $DOCKER_IMAGE_BUILD_REGISTRY/$DOCKER_IMAGE_BUILD_NAME:$DOCKER_IMAGE_BUILD_TAG --tag $DOCKER_IMAGE_PUBLISH_REGISTRY/$DOCKER_IMAGE_PUBLISH_NAME:dev;
 
       fi;
 
@@ -239,10 +242,31 @@ Docker Container (dev):
     - when: never
 
 
+test:unit:docker:collection:installed:dev:
+  extends: .docker_collection_installed
+  needs: 
+    - "Docker Container (dev)"
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+
+    - if: "$CI_COMMIT_AUTHOR =='nfc_bot <helpdesk@nofusscomputing.com>'"
+      when: never
+
+    - if:
+        $CI_COMMIT_BRANCH != "master"
+          &&
+        $CI_PIPELINE_SOURCE == "push"
+      when: always
+
+    - when: never
+
+
 Docker Hub (dev):
   extends: .publish-docker-hub
   needs: 
     - "Docker Container (dev)"
+    - "test:unit:docker:collection:installed:dev"
   resource_group: docker-build
   rules:
     - if: $CI_COMMIT_TAG
@@ -255,7 +279,7 @@ Docker Hub (dev):
         $CI_COMMIT_BRANCH == "development"
           &&
         $CI_PIPELINE_SOURCE == "push"
-      when: always
+      when: on_success
 
     - when: never
 
@@ -281,10 +305,31 @@ Docker Container:
     - when: never
 
 
+test:unit:docker:collection:installed:
+  extends: .docker_collection_installed
+  needs:
+    - Docker Container
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: on_success
+
+    - if: "$CI_COMMIT_AUTHOR =='nfc_bot <helpdesk@nofusscomputing.com>'"
+      when: never
+
+    # - if: # Occur on merge
+    #     $CI_COMMIT_BRANCH == "development"
+    #       &&
+    #     $CI_PIPELINE_SOURCE == "push"
+    #   when: always
+
+    - when: never
+
+
 Docker Hub:
   extends: .publish-docker-hub
   needs: 
     - "Docker Container"
+    - "test:unit:docker:collection:installed"
     - "Gitlab Release"
   resource_group: docker-build
   rules:
