@@ -85,6 +85,7 @@
     ca_path: "{{ nofusscomputing_phpipam_scan_agent.ca_path | default(omit) }}"
     headers:
       Authorization: "Bearer {{ nofusscomputing_phpipam_scan_agent.auth_token | default('no-token-set') }}"
+    http_agent: nfc-phpipam-scan-agent/0.2.0-a2
     url: "{{
       nofusscomputing_phpipam_scan_agent.http_server | default(nfc_c_http_server)
       }}:{{ nofusscomputing_phpipam_scan_agent.http_port | default(nfc_c_http_port) }}/"
