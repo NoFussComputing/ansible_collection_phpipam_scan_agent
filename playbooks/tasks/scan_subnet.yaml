@@ -44,7 +44,7 @@
             {%- endfor %}
             "subnetId": "{{ subnet.id }}",
             "ip": "{{ scanned_host.address['@addr'] | default(scanned_host.address[0]['@addr']) }}",
-            "lastSeen": "{{ nmap_scan.start }}",
+            "lastSeen": "{{ (nmap_scan.start | split('.'))[0] }}",
 
             {% if scanned_host.hostnames.hostname is defined %}
 
@@ -124,7 +124,8 @@
       "code": "{{ nofusscomputing_phpipam_scan_agent.scanagent_code }}",
       "scan": {
         "subnet": "{{ subnet.address }}",
-        "results": "{{ subnet_scan_results }}"
+        "results": "{{ subnet_scan_results }}",
+        "tz": "{{ '%z' | strftime }}"
       }
     }
     validate_certs: true    # Ensure always true
