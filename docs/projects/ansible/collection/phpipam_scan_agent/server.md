@@ -29,10 +29,10 @@ The variables described below, if optional the value specified here is the defau
 nofusscomputing_phpipam_scan_server:
 
   # phpIPAM MariaDB/MySQL Variables
-  mysql_host:         # Mandatory, String. IP/DNS of host to connect. [nfc_c_]
-  mysql_port: 3306    # Optional, Integer. port to use for connection. [nfc_c_]
-  mysql_user:         # Mandatory, String. User to authenticate with. [nfc_c_]
-  mysql_password:     # Mandatory, String. Password for the user to connect with. [nfc_c_]
+  mysql_host:         # Mandatory, String. IP/DNS of host to connect.
+  mysql_port: 3306    # Optional, Integer. port to use for connection.
+  mysql_user:         # Mandatory, String. User to authenticate with.
+  mysql_password:     # Mandatory, String. Password for the user to connect with.
 
 
   # Server Component Variables

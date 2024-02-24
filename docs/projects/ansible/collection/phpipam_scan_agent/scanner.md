@@ -45,9 +45,9 @@ nofusscomputing_phpipam_scan_agent:
   epoch_time_offset: 0               # optional, int. Value in seconds to offset the time
 
 # phpIPAM Scan Agent Settings
-  client_token:                      # Mandatory, String client api token to connect to phpIPAM API [client_token]
-  client_name:                       # Mandatory, String. The scanner name as set in phpIPAM interface [client_name]
-  scanagent_code:                    # Mandatory, String. Scan Agent Code as set in phpIPAM interface [scanagent_code]
+  client_token:                      # Mandatory, String client api token to connect to phpIPAM API
+  client_name:                       # Mandatory, String. The scanner name as set in phpIPAM interface
+  scanagent_code:                    # Mandatory, String. Scan Agent Code as set in phpIPAM interface
 
 
 ```
