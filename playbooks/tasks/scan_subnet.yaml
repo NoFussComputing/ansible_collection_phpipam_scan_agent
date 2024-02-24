@@ -65,10 +65,13 @@
     subnet_scan_results: "{{ subnet_scan_results | from_yaml }}"
 
 
+  # Note: Dont edit http_agent version as the build pipeline updates automagically!!
+  #       see ci variable 'RELEASE_ADDITIONAL_ACTIONS_BUMP'
 - name: Upload Scan Results - {{ subnet.address }}
   ansible.builtin.uri:
     headers:
       Authorization: "Bearer {{ nofusscomputing_phpipam_scan_agent.auth_token | default('no-token-set') }}"
+    http_agent: nfc-phpipam-scan-agent/0.2.0-a2
     url: "{{
       nofusscomputing_phpipam_scan_agent.http_server | default(nfc_c_http_server)
       }}:{{ nofusscomputing_phpipam_scan_agent.http_port | default(nfc_c_http_port) }}/"
