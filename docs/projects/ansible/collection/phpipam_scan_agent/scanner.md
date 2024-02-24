@@ -38,7 +38,7 @@ nofusscomputing_phpipam_scan_agent:
 
   http_port: 5000                    # Optional, Integer. http port to connect to the server.
   http_server: http://127.0.0.1      # Optional, Integer. url with protocol of the Scan Server to connect to.
-  auth_token:                 # Optional, String. The Scan-Agent server authentication token.
+  ca_path:                           # Optional, String. PEM formatted file that contains a CA certificate to be used for validation
 
   cache_expire_time: 1800            # Optional, Integer. Time in seconds to expire the phpIPAM cache.
   epoch_time_offset: 0               # optional, int. Value in seconds to offset the time
@@ -99,6 +99,11 @@ The scanner component has the following workflow:
 ## Remote network Scannning
 
 Once the [server component](server.md#remote%20network%20scannning) has been setup, the client can be installed/used from any network. Even a network that is isolated from the server. Only caveat is that the client can communicate with the server. To ensure that the client can connect to the server set the `auth_token` to match that of the server.
+
+Confirmation of the servers identity is done by validating the certificate that the server is using for TLS. Set variable `ca_path` to the path of a PEM formated certificate, and the CA certificate that was used to sign the servers TLS certificate.
+
+!!! tip
+    Whilst it's possible to use a certificate from a provider, letsencrypt for example. Using a self signed certificate is advised for communication between the server and scanner components. By doing so only you can authorize a certificate for the server. You should assess what is the best course of action within your threat model.
 
 !!! danger "Security"
     Failing to secure the server component communication with TLS will allow anyone with direct access to the line of communication to view the `auth_token`. Anyone who has the `auth_token` will be able to upload data to the server.
