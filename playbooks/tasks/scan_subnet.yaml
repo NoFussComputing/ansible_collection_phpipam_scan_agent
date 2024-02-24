@@ -67,6 +67,8 @@
 
 - name: Upload Scan Results - {{ subnet.address }}
   ansible.builtin.uri:
+    headers:
+      Authorization: "Bearer {{ nofusscomputing_phpipam_scan_agent.auth_token | default('no-token-set') }}"
     url: "{{
       nofusscomputing_phpipam_scan_agent.http_server | default(nfc_c_http_server)
       }}:{{ nofusscomputing_phpipam_scan_agent.http_port | default(nfc_c_http_port) }}/"

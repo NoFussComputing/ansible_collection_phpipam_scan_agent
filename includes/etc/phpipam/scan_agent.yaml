@@ -16,3 +16,5 @@ nofusscomputing_phpipam_scan_agent:
   client_token:                      # Mandatory, String client api token to connect to phpIPAM API [client_token]
   client_name:                       # Mandatory, String. The scanner name as set in phpIPAM interface [client_name]
   scanagent_code:                    # Mandatory, String. Scan Agent Code as set in phpIPAM interface [scanagent_code]
+
+  # auth_token:                        # Optional, String. The Scan-Agent server authentication token.

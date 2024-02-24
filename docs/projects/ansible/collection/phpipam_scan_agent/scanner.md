@@ -38,6 +38,7 @@ nofusscomputing_phpipam_scan_agent:
 
   http_port: 5000                    # Optional, Integer. http port to connect to the server.
   http_server: http://127.0.0.1      # Optional, Integer. url with protocol of the Scan Server to connect to.
+  auth_token:                 # Optional, String. The Scan-Agent server authentication token.
 
   cache_expire_time: 1800            # Optional, Integer. Time in seconds to expire the phpIPAM cache.
   epoch_time_offset: 0               # optional, int. Value in seconds to offset the time
@@ -93,3 +94,11 @@ The scanner component has the following workflow:
     1. upload scan report to configured Server.
 
 1. workflow complete.
+
+
+## Remote network Scannning
+
+Once the [server component](server.md#remote%20network%20scannning) has been setup, the client can be installed/used from any network. Even a network that is isolated from the server. Only caveat is that the client can communicate with the server. To ensure that the client can connect to the server set the `auth_token` to match that of the server.
+
+!!! danger "Security"
+    Failing to secure the server component communication with TLS will allow anyone with direct access to the line of communication to view the `auth_token`. Anyone who has the `auth_token` will be able to upload data to the server.
