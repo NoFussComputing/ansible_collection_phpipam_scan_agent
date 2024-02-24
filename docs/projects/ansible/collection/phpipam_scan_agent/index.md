@@ -75,6 +75,17 @@ When this setting is enabled, the scanner will scan the entire subnet that has b
 This is displayed within the subnet interface next to the `Discover new hosts` field. Whenever a scan report is received by the server this filed is updated to reflect the last scan time.
 
 
+### Scan Agent
+
+- Location `Administration -> Scan agents [Last access]`
+
+This is displayed within the Scan Agent table in column `Last access`. When ever the scanner checks in, the time of the checkin is used to update the field.
+
+- Location `Subnet -> Scan agent [Last Check]`
+
+This is displayed within the subnet interface next to `Scan agent` field. When ever the scanner checks in, the time of the checkin is used to update the field.
+
+
 ## Development Notes
 
 Contributions to this project are welcome. Below you will find some useful commands for use during development.

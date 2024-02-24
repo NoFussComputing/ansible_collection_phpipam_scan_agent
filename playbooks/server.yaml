@@ -38,6 +38,24 @@
       register: mysql_query_agent_details
 
 
+    - name: Update Scan Agent Last seen
+      community.mysql.mysql_query:
+        login_host: "{{ nofusscomputing_phpipam_scan_server.mysql_host }}"
+        login_port: "{{ nofusscomputing_phpipam_scan_server.mysql_port | default(3306) | int }}"
+        login_user: "{{ nofusscomputing_phpipam_scan_server.mysql_user }}"
+        login_password: "{{ nofusscomputing_phpipam_scan_server.mysql_password }}"
+
+        login_db: 'phpipam'
+        query: |-
+          UPDATE
+            scanAgents
+          SET
+          last_access = '{{ ('%Y-%m-%d %H:%M:%S' | strftime) }}'
+          WHERE
+            id = '{{ mysql_query_agent_details.query_result[0][0].id }}'
+        single_transaction: true
+
+
     - name: Confirm Subnet Assignment
       community.mysql.mysql_query:
         login_host: "{{ nofusscomputing_phpipam_scan_server.mysql_host }}"
