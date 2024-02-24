@@ -19,6 +19,18 @@ variables:
   DOCKER_IMAGE_PUBLISH_REGISTRY: docker.io/nofusscomputing
   DOCKER_IMAGE_PUBLISH_URL: https://hub.docker.com/r/nofusscomputing/$DOCKER_IMAGE_PUBLISH_NAME
 
+  RELEASE_ADDITIONAL_ACTIONS_BUMP: |
+    sed -E "/http_agent: nfc-phpipam-scan-agent/s/\/(.+)/\/$(cz version --project)/g" -i playbooks/tasks/scan_subnet.yaml;
+
+    git add playbooks/tasks/scan_subnet.yaml;
+
+    git status;
+
+    sed -E "/http_agent: nfc-phpipam-scan-agent/s/\/(.+)/\/$(cz version --project)/g" -i playbooks/tasks/api_call.yaml
+
+    git add playbooks/tasks/api_call.yaml;
+
+    git status;
 
 include:
 

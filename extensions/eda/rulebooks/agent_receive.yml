@@ -6,6 +6,7 @@
       ansible.eda.webhook:
         host: 0.0.0.0
         port: "{{ nofusscomputing_phpipam_scan_server.http_port | default(5000) | int }}"
+        token: "{{ nofusscomputing_phpipam_scan_server.auth_token | default('no-token-set') }}"
 
   rules:
 

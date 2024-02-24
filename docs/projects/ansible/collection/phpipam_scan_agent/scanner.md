@@ -38,14 +38,15 @@ nofusscomputing_phpipam_scan_agent:
 
   http_port: 5000                    # Optional, Integer. http port to connect to the server.
   http_server: http://127.0.0.1      # Optional, Integer. url with protocol of the Scan Server to connect to.
+  auth_token:                        # Optional, String. The Scan-Agent server authentication token.
 
   cache_expire_time: 1800            # Optional, Integer. Time in seconds to expire the phpIPAM cache.
   epoch_time_offset: 0               # optional, int. Value in seconds to offset the time
 
 # phpIPAM Scan Agent Settings
-  client_token:                      # Mandatory, String client api token to connect to phpIPAM API [client_token]
-  client_name:                       # Mandatory, String. The scanner name as set in phpIPAM interface [client_name]
-  scanagent_code:                    # Mandatory, String. Scan Agent Code as set in phpIPAM interface [scanagent_code]
+  client_token:                      # Mandatory, String client api token to connect to phpIPAM API
+  client_name:                       # Mandatory, String. The scanner name as set in phpIPAM interface
+  scanagent_code:                    # Mandatory, String. Scan Agent Code as set in phpIPAM interface
 
 
 ```
@@ -93,3 +94,15 @@ The scanner component has the following workflow:
     1. upload scan report to configured Server.
 
 1. workflow complete.
+
+
+## Remote network Scannning
+
+Once the [server component](server.md#remote-network-scannning) has been setup, the client can be installed/used from any network. Even a network that is isolated from the server. Only caveat is that the client can communicate with the server. To ensure that the client can connect to the server set the `auth_token` to match that of the server.
+
+There is no true confirmation of the servers identity outside of confirming the TLS Certificate is trusted. Due to this fact, you're advised to use your own CA to sign the server components TLS Certificate. By doing this only you can issue a certificate to the server component. All that is required is to ensure that your CA certificate is within the trusted certificates of the machine that is running the agent.
+
+!!! danger "Security"
+    Failing to secure the server component communication with TLS will allow anyone with direct access to the line of communication to view the `auth_token`. Anyone who has the `auth_token` will be able to upload data to the server.
+
+    In an attempt to mitigate this, the scanner will fail to communicate with the server if you have set an `auth_token` and attempt non-TLS communication with the server.
