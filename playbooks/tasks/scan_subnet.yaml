@@ -103,3 +103,4 @@
         "results": "{{ subnet_scan_results }}"
       }
     }
+    validate_certs: true    # Ensure always true
