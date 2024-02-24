@@ -38,6 +38,7 @@ nofusscomputing_phpipam_scan_agent:
 
   http_port: 5000                    # Optional, Integer. http port to connect to the server.
   http_server: http://127.0.0.1      # Optional, Integer. url with protocol of the Scan Server to connect to.
+  auth_token:                        # Optional, String. The Scan-Agent server authentication token.
   ca_path:                           # Optional, String. PEM formatted file that contains a CA certificate to be used for validation
 
   cache_expire_time: 1800            # Optional, Integer. Time in seconds to expire the phpIPAM cache.
@@ -107,3 +108,5 @@ Confirmation of the servers identity is done by validating the certificate that 
 
 !!! danger "Security"
     Failing to secure the server component communication with TLS will allow anyone with direct access to the line of communication to view the `auth_token`. Anyone who has the `auth_token` will be able to upload data to the server.
+
+    In an attempt to mitigate this, the scanner will fail to communicate with the server if you have set an `auth_token` and attempt non-TLS communication with the server.
