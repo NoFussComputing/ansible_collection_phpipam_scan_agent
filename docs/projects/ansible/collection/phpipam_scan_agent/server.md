@@ -29,10 +29,10 @@ The variables described below, if optional the value specified here is the defau
 nofusscomputing_phpipam_scan_server:
 
   # phpIPAM MariaDB/MySQL Variables
-  mysql_host:         # Mandatory, String. IP/DNS of host to connect. [nfc_c_]
-  mysql_port: 3306    # Optional, Integer. port to use for connection. [nfc_c_]
-  mysql_user:         # Mandatory, String. User to authenticate with. [nfc_c_]
-  mysql_password:     # Mandatory, String. Password for the user to connect with. [nfc_c_]
+  mysql_host:         # Mandatory, String. IP/DNS of host to connect.
+  mysql_port: 3306    # Optional, Integer. port to use for connection.
+  mysql_user:         # Mandatory, String. User to authenticate with.
+  mysql_password:     # Mandatory, String. Password for the user to connect with.
 
 
   # Server Component Variables
@@ -63,7 +63,7 @@ The Server componet has the following workflow:
 
 Remote network scanning is possible with the Scan-Agent. The server must be setup and have connectivity to the phpIPAM MariaDB/MySQL database. Currently the server does not perform secure communication. As such you are strongly encouraged to setup the server component behind a reverse proxy that conducts the TLS termination.
 
-The [scan](scanner.md#remote%20network%20scannning) and server component must be setup with the same `auth_token`. It is this token that provides a means to ensure that what the server is receiving, is from an authorized client.
+The [scan](scanner.md#remote-network-scannning) and server component must be setup with the same `auth_token`. It is this token that provides a means to ensure that what the server is receiving, is from an authorized client.
 
 !!! danger "Security"
     Failing to secure the server component communication with TLS will allow anyone with direct access to the line of communication to view the `auth_token`. Anyone who has the `auth_token` will be able to upload data to the server.
