@@ -45,15 +45,39 @@
             "subnetId": "{{ subnet.id }}",
             "ip": "{{ scanned_host.address['@addr'] | default(scanned_host.address[0]['@addr']) }}",
             "lastSeen": "{{ nmap_scan.start }}",
+
             {% if scanned_host.hostnames.hostname is defined %}
-              {% if '.' in scanned_host.hostnames.hostname['@name'] | string %}
+
+              {% set ip_address = scanned_host.address['@addr'] | default(scanned_host.address[0]['@addr']) | split('.') %}
+
+              {% if
+                '.' in scanned_host.hostnames.hostname['@name'] | string
+                  and
+                (ip_address[0] + '-' + ip_address[1] + '-' + ip_address[2] + '-' + ip_address[3]) not in scanned_host.hostnames.hostname['@name'] | string
+                  and
+                (ip_address[3] + '-' + ip_address[2] + '-' + ip_address[1] + '-' + ip_address[0]) not in scanned_host.hostnames.hostname['@name'] | string
+              %}
+
                 "hostname": "{{ (scanned_host.hostnames.hostname['@name'] | split('.'))[0] }}",
-              {% else %}
+
+              {% elif
+                '.' not in scanned_host.hostnames.hostname['@name'] | string
+                  and
+                (ip_address[0] + '-' + ip_address[1] + '-' + ip_address[2] + '-' + ip_address[3]) not in scanned_host.hostnames.hostname['@name'] | string
+                  and
+                (ip_address[3] + '-' + ip_address[2] + '-' + ip_address[1] + '-' + ip_address[0]) not in scanned_host.hostnames.hostname['@name'] | string
+              %}
+
                 "hostname": "{{ scanned_host.hostnames.hostname['@name'] }}",
+
               {% endif %}
+
             {% endif %}
+
             {% if scanned_host.address['@addrtype'] | default(scanned_host.address[1]['@addrtype']) == 'mac' %}
+
               "mac": "{{ scanned_host.address['@addr'] | default(scanned_host.address[1]['@addr']) | upper }}"
+
             {% endif %}
           },
         {% endif %}
