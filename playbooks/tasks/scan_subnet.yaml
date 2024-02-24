@@ -60,6 +60,25 @@
       {% endfor %}
       ]
 
+
+- name: Force Failure for non-HTTPS Communication
+  ansible.builtin.assert:
+    that:
+      - |-
+        not
+          (
+            (
+              'http:' in (nofusscomputing_phpipam_scan_agent.http_server | default(nfc_c_http_server) | string)
+                and
+              'http://127.0.0.1' not in (nofusscomputing_phpipam_scan_agent.http_server | default(nfc_c_http_server) | string)
+            )
+              and
+            nofusscomputing_phpipam_scan_agent.auth_token | default('no-token-set') != 'no-token-set'
+          )
+    fail_msg: 'Failing task as an attempt was made to communicate with the server over a non-encrypted channel'
+    success_msg: 'OK'
+
+
 - name: To JSON - {{ subnet.address }}
   ansible.builtin.set_fact:
     subnet_scan_results: "{{ subnet_scan_results | from_yaml }}"
