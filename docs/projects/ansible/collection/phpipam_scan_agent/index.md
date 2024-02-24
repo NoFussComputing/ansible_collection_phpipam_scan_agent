@@ -50,7 +50,7 @@ The following features are available or planned to be implmented:
     !!! info
         It's only possible to obtain a MAC Address if the scanner is on the same L2 network (Broadcast Domain). Within the docs you will find the different methods available to achieve this.
 
-- [**ToDo** Remote Network Scanning](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/1)
+- Remote Network Scanning
 
 - [**ToDo** Resolve DNS names](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/4)
 
@@ -73,6 +73,17 @@ When this setting is enabled, the scanner will scan the entire subnet that has b
  - Location `Subnet -> Discover new hosts [Last discovery time]` 
 
 This is displayed within the subnet interface next to the `Discover new hosts` field. Whenever a scan report is received by the server this filed is updated to reflect the last scan time.
+
+
+### Scan Agent
+
+- Location `Administration -> Scan agents [Last access]`
+
+This is displayed within the Scan Agent table in column `Last access`. When ever the scanner checks in, the time of the checkin is used to update the field.
+
+- Location `Subnet -> Scan agent [Last Check]`
+
+This is displayed within the subnet interface next to `Scan agent` field. When ever the scanner checks in, the time of the checkin is used to update the field.
 
 
 ## Development Notes

@@ -11,3 +11,5 @@ nofusscomputing_phpipam_scan_server:
 
 # Server Component Variables
 # http_port: 5000     # Optional, Integer. The port for the Server component to listen for connections.
+
+# auth_token:         # Optional, String. Token used to authentication Agents.
