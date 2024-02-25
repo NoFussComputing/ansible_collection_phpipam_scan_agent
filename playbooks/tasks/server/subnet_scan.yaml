@@ -38,7 +38,7 @@
       UPDATE
         subnets
       SET
-       lastDiscovery = '{{ inbound_data.scan.results[0].lastSeen }}'
+       lastDiscovery = '{{ ('%Y-%m-%d %H:%M:%S' | strftime) }}'
       WHERE
         subnet = '{{ (inbound_data.scan.subnet | split('/'))[0] | ip2ipam }}'
     single_transaction: true
