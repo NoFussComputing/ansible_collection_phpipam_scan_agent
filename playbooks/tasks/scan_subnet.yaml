@@ -1,12 +1,5 @@
 ---
 
-- name: Scan subnet - {{ subnet.address }}
-  ansible.builtin.command:
-    cmd: nmap -sn "{{ subnet.address }}" -oX -
-  become: true
-  register: nmap_scan
-
-
 - name: Get subnets Address'
   ansible.builtin.include_tasks:
     file: tasks/api_call.yaml
@@ -17,13 +10,70 @@
     api_query_string: "filter_by=subnetId&filter_value={{ subnet.id }}"
 
 
-- name: Load Subnet - {{ subnet.address }}
+- name: Register Subnet API Call
   ansible.builtin.set_fact:
-    cached_subnet: "{{ lookup('file', cache_filepath) }}"
+    cacheable: false
+    subnet_api_call: "{{ api_call }}"
+    subnet_cache_filepath: "{{ cache_filepath }}"
+    api_call: ''
+
+
+- name: Get subnet Name Servers
+  ansible.builtin.include_tasks:
+    file: tasks/api_call.yaml
+  vars:
+    api_client_name: "{{ nofusscomputing_phpipam_scan_agent.client_name }}"
+    api_token: "{{ nofusscomputing_phpipam_scan_agent.client_token }}"
+    api_path: "{{ api_nameservers }}"
+    api_query_string: "filter_by=id&filter_value={{ subnet.nameserverId }}"
+  when: >
+    subnet.nameserverId is defined
+      and
+    subnet.resolveDNS | int == 1
+
+
+- name: Load Nameservers - {{ subnet.address }}
+  ansible.builtin.set_fact:
+    subnet_name_servers: "{{ lookup('file', cache_filepath) }}"
     cacheable: false
   no_log: true
   when: >
+    subnet.nameserverId is defined
+      and
+    subnet.resolveDNS | int == 1
+      and
     api_call.status | default(0) | int != 404
+
+
+- name: Scan subnet - {{ subnet.address }}
+  ansible.builtin.command:
+    cmd: >
+      nmap -sn "{{ subnet.address }}" {% if
+        subnet_name_servers is defined
+          and
+        subnet.resolveDNS | int == 1
+      -%}
+      --dns-servers {% for nameserver in subnet_name_servers -%}
+        {% for name_server in nameserver.namesrv1 | split(';') %}
+          {{ name_server }},
+        {%- endfor -%}
+      {%- endfor -%}
+      {%- elif subnet.resolveDNS | int == 1 -%}
+        --system-dns
+      {%- else -%}
+        -n
+      {%- endif %} -oX -
+  become: true
+  register: nmap_scan
+
+
+- name: Load Subnet - {{ subnet.address }}
+  ansible.builtin.set_fact:
+    cached_subnet: "{{ lookup('file', subnet_cache_filepath) }}"
+    cacheable: false
+  no_log: true
+  when: >
+    subnet_api_call.status | default(0) | int != 404
 
 
 - name: Process Scan Results - {{ subnet.address }}
