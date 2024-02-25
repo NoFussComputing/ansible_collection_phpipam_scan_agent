@@ -1,5 +1,41 @@
 ---
 
+- name: Convert Scan Time to Local Time
+  ansible.builtin.set_fact:
+    scan_time: |-
+      {%- if inbound_data.scan.tz != ('%z' | strftime | string) -%}
+
+        {%- set adjust_time = scan_address.ipaddress.lastSeen -%}
+
+        {%- if ('%z' | strftime)[0:1] == '+' -%}
+
+          {{
+            '%Y-%m-%d %H:%M:%S' | strftime(
+              (adjust_time | to_datetime).strftime('%s') | int -
+                (
+                  (inbound_data.scan.tz[1:3] | int * 3600) + (inbound_data.scan.tz[3:5] | int * 60)
+                ) | int
+              )
+          }}
+
+        {%- else -%}
+
+          {{
+            '%Y-%m-%d %H:%M:%S' | strftime((adjust_time | to_datetime).strftime('%s') | int +
+            (
+              (inbound_data.scan.tz[1:3] | int * 3600) + (inbound_data.scan.tz[3:5] | int * 60)
+            ) | int)
+          }}
+
+        {%- endif -%}
+
+      {%- else -%}
+
+        {{ scan_address.ipaddress.lastSeen }}
+
+      {%- endif %}
+    cacheable: false
+
 
 - name: "Update IP Address' found - {{ scan_address.ipaddress.ip }}"
   community.mysql.mysql_query:
@@ -16,7 +52,7 @@
 
         UPDATE ipaddresses
         SET
-          lastSeen = '{{ scan_address.ipaddress.lastSeen }}'
+          lastSeen = '{{ scan_time }}'
 
             {% if scan_address.ipaddress.hostname | default('') != '' %},
 

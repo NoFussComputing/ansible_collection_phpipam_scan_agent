@@ -67,3 +67,7 @@ The [scan](scanner.md#remote-network-scannning) and server component must be set
 
 !!! danger "Security"
     Failing to secure the server component communication with TLS will allow anyone with direct access to the line of communication to view the `auth_token`. Anyone who has the `auth_token` will be able to upload data to the server.
+
+## Timezone normalization
+
+As there is no support within phpIPAM for different timezones. The server component when receiving updates from scanners, will convert any time found to UTC (GMT +00:00). This is required so that phpIPAM features that rely on time, function as they should. This setup requires that machine or docker containers for phpIPAM and the MySQL/MariaDB database both have their timezones set to UTC. If you don't wish for any timezone conversion to be done, ensure that where ever all components, including the scan server component, share the same timezone.
