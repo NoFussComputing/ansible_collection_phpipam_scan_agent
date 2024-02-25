@@ -52,7 +52,7 @@ The following features are available or planned to be implmented:
     !!! info
         It's only possible to obtain a MAC Address if the scanner is on the same L2 network (Broadcast Domain). Within the docs you will find the different methods available to achieve this.
 
-- Remote Network Scanning
+- [Remote Network Scanning](scanner.md#remote-network-scannning)
 
 - [Resolve DNS names](index.md#Resolve-dns-names)
 
