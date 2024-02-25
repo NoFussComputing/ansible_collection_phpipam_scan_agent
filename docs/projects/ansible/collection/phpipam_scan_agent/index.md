@@ -32,6 +32,8 @@ This collection is available on Ansible Galaxy and can be installed with `ansibl
 
 Prefer to use our [docker](docker.md) image? It's available on Docker Hub `docker pull nofusscomputing/phpipam-scan-agent:latest`.
 
+There is no timezone support within phpIPAM. Due to this it's recommended that you setup phpIPAM, the database and the scanner component to use UTC (GMT +00:00) timezone or that all components be setup to use the same timezone.
+
 
 ## Features
 
@@ -53,6 +55,8 @@ The following features are available or planned to be implmented:
 - Remote Network Scanning
 
 - [**ToDo** Resolve DNS names](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/4)
+
+- [Timezone Normalization](server.md#timezone-normalization)
 
 
 ## phpIPAM Features
