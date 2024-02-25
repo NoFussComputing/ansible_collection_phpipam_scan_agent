@@ -23,7 +23,9 @@
       ansible.builtin.set_fact:
         nfc_c_scan_agent_subnets: "{{ nfc_c_scan_agent_subnets + [{
             'id': network.id,
-            'address': network.subnet + '/' + network.mask
+            'address': network.subnet + '/' + network.mask,
+            'nameserverId': network.nameserverId,
+            'resolveDNS': network.resolveDNS 
           }] }}"
       loop: "{{ lookup('file', cache_filepath) | default ([]) }}"
       loop_control:

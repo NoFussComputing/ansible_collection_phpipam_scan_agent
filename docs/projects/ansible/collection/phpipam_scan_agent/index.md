@@ -54,7 +54,7 @@ The following features are available or planned to be implmented:
 
 - Remote Network Scanning
 
-- [**ToDo** Resolve DNS names](https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent/-/issues/4)
+- [Resolve DNS names](index.md#Resolve-dns-names)
 
 - [Timezone Normalization](server.md#timezone-normalization)
 
@@ -77,6 +77,16 @@ When this setting is enabled, the scanner will scan the entire subnet that has b
  - Location `Subnet -> Discover new hosts [Last discovery time]` 
 
 This is displayed within the subnet interface next to the `Discover new hosts` field. Whenever a scan report is received by the server this filed is updated to reflect the last scan time.
+
+
+### Resolve DNS names
+
+- Location `Subnet -> Resolve DNS names`
+
+When this setting is enabled, DNS resolution for the hostname for any IP found will be conducted. If you have setup nameservers (`Administration -> Nameservers`) and assigned them to the subnet, they will be used for name resolution. If no nameservers are configured for the subnet, the host's nameservers where the scanner is running from will be used. BY default within phpIPAM, DNS Resolution is turned off for a subnet and as such the scanner will not resolve IP address DNS names.
+
+!!! info
+    The FQDN for an IP that is retured is not used as the hostname. **Only** the first octet. i.e. if the reverse DNS lookup returns a FQDN of `my_hostname.domainname.tld`, the hostname for the IP address will be set to `my_hostname`
 
 
 ### Scan Agent

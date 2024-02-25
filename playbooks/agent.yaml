@@ -82,3 +82,4 @@
     api_address: addresses
     api_subnets: subnets
     api_scanagents: tools/scanagents
+    api_nameservers: tools/nameservers
