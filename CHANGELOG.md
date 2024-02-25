@@ -1,3 +1,15 @@
+## 0.3.0 (2024-02-25)
+
+### Feat
+
+- **server**: DNS Reverse Lookup for IP Address'
+- **server**: Convert scanned time within scan report to UTC
+
+### Fix
+
+- **ci**: http user_agent version set during version bump
+- **server**: Time of last access for scan agent to use 'now'
+
 ## 0.2.0 (2024-02-24)
 
 ### Feat
@@ -49,4 +61,3 @@
 - **ci**: ensure correct github sync repo is used
 - **ci**: ensure docker build and publish occurs
 - Don't process results if scan report is empty
-- **docs**: correct nav link
