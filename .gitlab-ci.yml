@@ -30,6 +30,7 @@ include:
     ref: development
     file:
       - .gitlab-ci_common.yaml
+      - conventional_commits/.gitlab-ci.yml
       - template/ansible-collection.gitlab-ci.yaml
       - template/mkdocs-documentation.gitlab-ci.yaml
       # ToDo: update gitlabCI jobs for collections workflow
