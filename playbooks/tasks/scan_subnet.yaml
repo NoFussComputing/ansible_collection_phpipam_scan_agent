@@ -164,7 +164,7 @@
   ansible.builtin.uri:
     headers:
       Authorization: "Bearer {{ nofusscomputing_phpipam_scan_agent.auth_token | default('no-token-set') }}"
-    http_agent: nfc-phpipam-scan-agent/0.3.0
+    http_agent: nfc-phpipam-scan-agent/0.4.0
     url: "{{
       nofusscomputing_phpipam_scan_agent.http_server | default(nfc_c_http_server)
       }}:{{ nofusscomputing_phpipam_scan_agent.http_port | default(nfc_c_http_port) }}/"
