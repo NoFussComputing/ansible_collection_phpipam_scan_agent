@@ -92,21 +92,24 @@ COPY includes/ /
 
 RUN mkdir -p /tmp/collection; \
   if [ "$COLLECTION_PACKAGE" != "dev" ]; then \
-    echo "specified"; \
+    echo "[TRACE] Package Specified"; \
     ansible-galaxy collection install --force-with-deps --pre \
       $COLLECTION_PACKAGE; \
   elif [ "$COLLECTION_PACKAGE" == "dev" ]; then \
+    echo "[TRACE] Development Build"; \
     git clone \
       --depth=1 \
       -b $COLLECTION_BRANCH \ 
       https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent.git \
       /tmp/collection; \
     if [ "${COLLECTION_COMMIT}" != "none" ]; then git switch $COLLECTION_COMMIT; fi; \
+    echo "[TRACE] Installing Development Build"; \
     ansible-galaxy collection install --force-with-deps --pre \
     /tmp/collection/.; \
     rm -Rf /tmp/collection; \
   fi; \
   chmod +x /etc/cron.d/*; \
+  chmod +x /bin/update-ca; \
   chown root:root -R /etc/phpipam; \
   chmod 740 -R /etc/phpipam;
 

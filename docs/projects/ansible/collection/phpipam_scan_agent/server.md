@@ -61,7 +61,7 @@ The Server componet has the following workflow:
 
 ## Remote network Scannning
 
-Remote network scanning is possible with the Scan-Agent. The server must be setup and have connectivity to the phpIPAM MariaDB/MySQL database. Currently the server does not perform secure communication. As such you are strongly encouraged to setup the server component behind a reverse proxy that conducts the TLS termination.
+Remote network scanning is possible with the Scan-Agent. The server must be setup and have connectivity to the phpIPAM MariaDB/MySQL database. Currently the server does not perform secure communication. As such you are strongly encouraged to setup the server component behind a reverse proxy that conducts the TLS termination. It's also recommended that you use your [own CA](docker.md#custom-ca-certificate) to sign the TLS certificate. Just don't forget to add this CA certificate to the [trusted CA certificates](../../../itil/runbooks/linux/custom_ca.md)
 
 The [scan](scanner.md#remote-network-scannning) and server component must be setup with the same `auth_token`. It is this token that provides a means to ensure that what the server is receiving, is from an authorized client.
 

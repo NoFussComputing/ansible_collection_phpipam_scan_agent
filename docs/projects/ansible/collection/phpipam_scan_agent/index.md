@@ -25,6 +25,8 @@ A phpIPAM scan agent designed for both local and remote network scanning. This A
 
 This collection has been broken down into two components, a [server](server.md) and a [scanner](scanner.md). The scanner as the name implies will scan the networks assigned to it by phpIPAM and on completing a scan of a subnet, will post the results to the Server component which will process the results, and update the phpIPAM MySQL/MariaDB database directly.
 
+This agent has been created to solve a few shortcomings of the official scan-agent. Ansible was chosen as the tool for the creation of the scan-agent. This was done as it lowers the bar of entry to modifying and development. This as well as that Ansible is a mature automation system that has many modules. The latter offers a wide range of integrating different systems. The scanner component is just an ansible playbook, whilst the server is an ansilbe rulebook which is based upon Event Driven Ansible (EDA).
+
 
 ## Installation
 
@@ -54,7 +56,7 @@ The following features are available or planned to be implmented:
 
 - [Remote Network Scanning](scanner.md#remote-network-scannning)
 
-- [Resolve DNS names](index.md#Resolve-dns-names)
+- [Resolve DNS names](index.md#resolve-dns-names)
 
 - [Timezone Normalization](server.md#timezone-normalization)
 
