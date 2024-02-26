@@ -6,12 +6,12 @@ template: project.html
 about: https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent
 ---
 
-The Scan Agent Scanner component is intended to scan networks that are assigned to it by the phpIPAM server. It can be installed and ran from any host that is capable of running python.
+The Scan Agent Scanner component is intended to scan networks that are assigned to it by the phpIPAM server. It can be installed and ran from any host that is capable of running python. The scan agent only requires that there be `nmap` installed as this is the package that conducts the network scanning.
 
 
 ## Usage
 
-After installing the collection and configuring. Running the agent is as simple as running the following command:
+Ensure that the `namp` package is installed, install and configure the collection. Running the agent is as simple as running the following command:
 
 ``` bash
 
@@ -100,7 +100,7 @@ The scanner component has the following workflow:
 
 Once the [server component](server.md#remote-network-scannning) has been setup, the client can be installed/used from any network. Even a network that is isolated from the server. Only caveat is that the client can communicate with the server. To ensure that the client can connect to the server set the `auth_token` to match that of the server.
 
-There is no true confirmation of the servers identity outside of confirming the TLS Certificate is trusted. Due to this fact, you're advised to use your own CA to sign the server components TLS Certificate. By doing this only you can issue a certificate to the server component. All that is required is to ensure that your CA certificate is within the trusted certificates of the machine that is running the agent.
+There is no true confirmation of the servers identity outside of confirming the TLS Certificate is trusted. Due to this fact, you're advised to use your own CA to sign the server components TLS Certificate. By doing this only you can issue a certificate to the server component. All that is required is to ensure that [your CA certificate](docker.md#custom-ca-certificate) is within the [trusted certificates](../../../itil/runbooks/linux/custom_ca.md) of the machine that is running the agent.
 
 !!! danger "Security"
     Failing to secure the server component communication with TLS will allow anyone with direct access to the line of communication to view the `auth_token`. Anyone who has the `auth_token` will be able to upload data to the server.

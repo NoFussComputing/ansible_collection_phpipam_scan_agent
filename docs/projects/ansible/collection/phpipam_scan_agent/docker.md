@@ -22,6 +22,7 @@ docker run \
     -p "5000:5000" \
     -v "./scan_agent.yaml:/etc/phpipam/scan_agent.yaml" \
     -v "./scan_server.yaml:/etc/phpipam/scan_server.yaml" \
+    -v "./my-custom-ca.crt:/usr/local/share/ca-certificates/my-custom-ca.crt:ro"
     --name scan-agent \
     nofusscomputing/phpipam-scan-agent:latest;
 
@@ -37,9 +38,16 @@ When viewing the container logs `docker logs <container name>`, what you will se
 During the build of the container environmental variable `ANSIBLE_FORCE_COLOR='true'` is set, this enables the playbooks to be in colour when viewing the container logs. If this is not desired, set the variable to `ANSIBLE_FORCE_COLOR='false'` when launching the container.
 
 
+### Custom CA Certificate
+
+When the container starts or restarts a script runs that updates the containers trusted CA certificates. Details for mounting a/an certificate(s) is detailed below.
+
+
 ### Volumes
 
-You will need to configure the scan components:
+To configure the components, the following files will need to be mounted within the container:
+
+- Custom CA certificate at path `/usr/local/share/ca-certificates/`. you can mount a single `crt` file or multiple if you use a sub-directory at this path.
 
 - scanner config file at path `/etc/phpipam/scan_agent.yaml`, see [scanner docs](scanner.md#variables) for details.
 

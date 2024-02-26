@@ -1,0 +1,40 @@
+#!/bin/sh
+
+set -e;
+
+run_command() {
+
+  command_date=$(date '+%Y-%m-%d %H:%M:%S');
+
+  echo "${command_date} - info - $1 - $2";
+
+  $1
+
+  if [ $? ]; then
+
+    echo "${command_date} - info - $1 - command ran without error. exit=$?";
+
+  else
+
+    echo "${command_date} - error - ${1} - command had an error. exit=$?";
+
+  fi
+
+}
+
+
+while :
+do
+
+  run_command "ls -lR /usr/local/share/ca-certificates/" "List custom CA Certificates";
+
+
+  run_command "update-ca-certificates --fresh" "Clear currently trusted CA Certificates";
+
+
+  run_command "update-ca-certificates" "Update trusted CA Certificates";
+
+
+  sleep 9999999999999;
+
+done;
