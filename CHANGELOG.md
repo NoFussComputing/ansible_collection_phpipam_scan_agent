@@ -1,3 +1,10 @@
+## 0.4.0 (2024-02-26)
+
+### Feat
+
+- **docker**: update trusted CA certificates on start
+- **docker**: add trace output to determine install path for package
+
 ## 0.3.0 (2024-02-25)
 
 ### Feat
@@ -34,8 +41,6 @@
 
 - **server**: use correct sql syntax to insert ipaddress
 - **agent**: only attempt to scan subnet if subnets were returned
-- **agent**: cater for api call that returns nothing
-- **docker**: ensure correct variable used to install package
 - **build**: ensure the correct tags and architectures are published
 
 ### Refactor
@@ -60,4 +65,3 @@
 - **ci**: ensure docker publish uses correct tag
 - **ci**: ensure correct github sync repo is used
 - **ci**: ensure docker build and publish occurs
-- Don't process results if scan report is empty
