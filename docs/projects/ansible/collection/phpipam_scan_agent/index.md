@@ -54,7 +54,7 @@ The following features are available or planned to be implmented:
 
 - [Remote Network Scanning](scanner.md#remote-network-scannning)
 
-- [Resolve DNS names](index.md#Resolve-dns-names)
+- [Resolve DNS names](index.md#resolve-dns-names)
 
 - [Timezone Normalization](server.md#timezone-normalization)
 
