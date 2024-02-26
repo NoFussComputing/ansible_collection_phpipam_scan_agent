@@ -6,12 +6,12 @@ template: project.html
 about: https://gitlab.com/nofusscomputing/projects/ansible/collections/phpipam_scan_agent
 ---
 
-The Scan Agent Scanner component is intended to scan networks that are assigned to it by the phpIPAM server. It can be installed and ran from any host that is capable of running python.
+The Scan Agent Scanner component is intended to scan networks that are assigned to it by the phpIPAM server. It can be installed and ran from any host that is capable of running python. The scan agent only requires that there be `nmap` installed as this is the package that conducts the network scanning.
 
 
 ## Usage
 
-After installing the collection and configuring. Running the agent is as simple as running the following command:
+Ensure that the `namp` package is installed, install and configure the collection. Running the agent is as simple as running the following command:
 
 ``` bash
 
